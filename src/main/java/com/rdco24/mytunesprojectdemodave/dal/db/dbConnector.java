@@ -12,7 +12,7 @@ public class dbConnector {
     public dbConnector() {
         dataSource = new SQLServerDataSource();
         dataSource.setServerName("EASV-DB4");
-        dataSource.setDatabaseName("MyTunesProject");
+        dataSource.setDatabaseName("myTunesOG");
         dataSource.setUser("CSe2024b_e_24");
         dataSource.setPassword("CSe2024bE24!24");
         dataSource.setPortNumber(1433);
