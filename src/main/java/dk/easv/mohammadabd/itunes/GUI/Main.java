@@ -5,8 +5,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+
+import dk.easv.mohammadabd.itunes.DAL.DBsong;
 
 public class Main extends Application {
 
@@ -22,6 +23,10 @@ public class Main extends Application {
         // database connection
         dbConnector db = new dbConnector();
         db.getConnection();
+
+        DBsong dbs = new DBsong();
+
+        System.out.println(dbs.getAllSongs());
     }
 
     public static void main(String[] args) {

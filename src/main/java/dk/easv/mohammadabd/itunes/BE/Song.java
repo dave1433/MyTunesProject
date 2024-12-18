@@ -1,14 +1,14 @@
 package dk.easv.mohammadabd.itunes.BE;
 
-public class song {
+public class Song {
     private int ID;
     private String title;
     private String artist;
     private String genre;
-    private float duration;
+    private double duration;
     private String filePath;
 
-    public song(int ID, String title, String artist, String genre, float duration, String filePath) {
+    public Song(int ID, String title, String artist, double duration) {
         this.ID = ID;
         this.title = title;
         this.artist = artist;
@@ -29,7 +29,7 @@ public class song {
     public String getGenre() {
         return genre;
     }
-    public float getDuration() {
+    public double getDuration() {
         return duration;
     }
     public String getFilePath() {
