@@ -27,18 +27,23 @@ public class Main extends Application {
      */
     private void fetchAndDisplaySongs() {
         DBsong dbs = new DBsong();
-        var songs = dbs.getAllSongs(); // Fetch all songs from the database
-        System.out.println("Total songs fetched: " + songs.size());
 
-        // Print out fetched songs
-        for (var song : songs) {
-            System.out.println("Song [ID=" + song.getID() +
-                    ", Title='" + song.getTitle() +
-                    "', Artist='" + song.getArtist() +
-                    "', Genre='" + song.getGenre() +
-                    "', Duration=" + song.getDuration() +
-                    ", FilePath='" + song.getFilePath() + "']");
-        }
+        // Fetch all songs from the database
+        var songs = dbs.getAllSongs();
+        System.out.println("Fetched " + songs.size() + " songs from the database. & fetch genre based on get(1) which is in this example: " + songs.get(1).getGenre());
+        // getting a song by the id
+        dbs.getSongById(2);
+
+        //getting a song by title
+        dbs.getSongByTitle("The Best Of Me");
+        dbs.getSongByTitle("Hello");
+
+        //getting a song by genre
+        dbs.getSongsByGenre("Rock");
+
+        //getting a song by artist name
+        dbs.getSongByArtist("Bad boys");
+
     }
 
     public static void main(String[] args) {
