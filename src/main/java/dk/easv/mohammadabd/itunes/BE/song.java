@@ -8,6 +8,15 @@ public class song {
     private float duration;
     private String filePath;
 
+    public song(int ID, String title, String artist, String genre, float duration, String filePath) {
+        this.ID = ID;
+        this.title = title;
+        this.artist = artist;
+        this.genre = genre;
+        this.duration = duration;
+        this.filePath = filePath;
+    }
+
     public int getID() {
         return ID;
     }
@@ -23,14 +32,11 @@ public class song {
     public float getDuration() {
         return duration;
     }
-
     public String getFilePath() {
         return filePath;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
-    }
+    public void setID(int ID) {this.ID = ID;}
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
