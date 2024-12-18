@@ -1,7 +1,6 @@
 package com.rdco24.mytunesprojectdemodave.dal.db;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -20,17 +19,15 @@ public class dbConnector {
     }
 
     public Connection getConnection() throws SQLException {
-        return getConnection();
+        return dataSource.getConnection();
     }
 
-    public static void  main(String[] args) {
+    public static void main(String[] args) {
         dbConnector dbConnector = new dbConnector();
-        try {
-            dbConnector.getConnection();
+        try (Connection connection = dbConnector.getConnection()) {
             System.out.println("Connection Established");
-
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to connect to the database", e);
         }
     }
 }

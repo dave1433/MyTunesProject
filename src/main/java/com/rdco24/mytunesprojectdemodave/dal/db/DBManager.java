@@ -51,7 +51,7 @@ public class DBManager {
     // Methods
 
     public void saveSong(String song){
-        String query = "INSERT INTO songs (song) VALUES (?)";
+        String query = "INSERT INTO myTunesOGsongs (songs) VALUES (?)";
         try(PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1,song);
             statement.executeUpdate();
@@ -62,7 +62,7 @@ public class DBManager {
     }
 
     public void savePlaylist(List<String>playlist){
-        String query = "INSERT INTO playlists (playlists) VALUES (?)";
+        String query = "INSERT INTO myTunesOG.playlists (playlist) VALUES (?)";
         try(PreparedStatement statement = connection.prepareStatement(query)){
            for(String playlists:playlist){
                statement.setString(1, playlists);
@@ -77,7 +77,7 @@ public class DBManager {
 
     public List<String> loadSongs() {
         List<String> songs = new ArrayList<>();
-        String query = "SELECT song FROM songs";
+        String query = "SELECT song FROM myTunesOG.songs";
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
@@ -93,7 +93,7 @@ public class DBManager {
 
     public List<String> loadPlaylists(){
         List<String>loadPlaylists = new ArrayList<>();
-        String query = "SELECT playlists FROM playlist";
+        String query = "SELECT playlists FROM myTunesOG.playlists";
         try(Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query)) {
 
