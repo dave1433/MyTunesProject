@@ -14,7 +14,7 @@ public class dbConnector {
         dataSource.setServerName("EASV-DB4");
         dataSource.setDatabaseName("myTunesOG");
         dataSource.setUser("CSe2024b_e_24");
-        dataSource.setPassword("CSe2024bE24!24");
+        dataSource.setPassword("CSe2024bE24!2");
         dataSource.setPortNumber(1433);
         dataSource.setTrustServerCertificate(true);
     }
