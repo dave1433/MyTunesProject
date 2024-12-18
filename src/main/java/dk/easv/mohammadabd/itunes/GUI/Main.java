@@ -1,18 +1,16 @@
 package dk.easv.mohammadabd.itunes.GUI;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
-import dk.easv.mohammadabd.itunes.DAL.dbConnector;
+
+import dk.easv.mohammadabd.itunes.DAL.DBsong;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-import dk.easv.mohammadabd.itunes.DAL.DBsong;
-
 public class Main extends Application {
 
     @Override
-    public void start(Stage stage) throws IOException, SQLServerException {
+    public void start(Stage stage) throws IOException {
         // Load the FXML and initialize the scene
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/dk/easv/mohammadabd/itunes/GUI/MainView.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 820, 500);
@@ -20,13 +18,27 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
-        // database connection
-        dbConnector db = new dbConnector();
-        db.getConnection();
+        // Fetch songs from the database
+        fetchAndDisplaySongs();
+    }
 
+    /**
+     * Helper method to fetch songs from the database and display them in the console.
+     */
+    private void fetchAndDisplaySongs() {
         DBsong dbs = new DBsong();
+        var songs = dbs.getAllSongs(); // Fetch all songs from the database
+        System.out.println("Total songs fetched: " + songs.size());
 
-        System.out.println(dbs.getAllSongs());
+        // Print out fetched songs
+        for (var song : songs) {
+            System.out.println("Song [ID=" + song.getID() +
+                    ", Title='" + song.getTitle() +
+                    "', Artist='" + song.getArtist() +
+                    "', Genre='" + song.getGenre() +
+                    "', Duration=" + song.getDuration() +
+                    ", FilePath='" + song.getFilePath() + "']");
+        }
     }
 
     public static void main(String[] args) {
