@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class dbConnector {
+    private Connection connection;
     private final SQLServerDataSource ds;
 
     public dbConnector()
@@ -35,6 +36,19 @@ public class dbConnector {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    // Close the database connection
+
+    public void closeConnection() {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+                System.out.println("Database connection closed.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error closing connection: " + e.getMessage());
         }
     }
 }
