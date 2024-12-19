@@ -16,7 +16,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0"
             prefWidth="815.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="dk.easv.mohammadabd.itunes.GUI.Controller.UIController">
+            fx:controller="dk.easv.mohammadabd.itunes.GUI.UIController">
 
   <!-- Playlist List -->
   <ListView fx:id="playlistListView" layoutX="595.0" layoutY="31.0" prefHeight="185.0" prefWidth="219.0">
@@ -55,10 +55,10 @@
 
   <!-- Media Control Buttons -->
   <Slider fx:id="progressSlider" layoutX="10.0" layoutY="450.0" prefWidth="575.0"/>
-  <Button layoutX="338.0" layoutY="450.0" mnemonicParsing="false" text=">"/>
-  <Button layoutX="214.0" layoutY="450.0" mnemonicParsing="false" text="<"/>
-  <Button layoutX="373.0" layoutY="450.0" mnemonicParsing="false" text=">>"/>
-  <Button layoutX="171.0" layoutY="450.0" mnemonicParsing="false" text="<<"/>
+  <Button layoutX="338.0" layoutY="450.0" mnemonicParsing="false" text="&gt;"/>
+  <Button layoutX="214.0" layoutY="450.0" mnemonicParsing="false" text="&lt;"/>
+  <Button layoutX="373.0" layoutY="450.0" mnemonicParsing="false" text="&gt;&gt;"/>
+  <Button layoutX="171.0" layoutY="450.0" mnemonicParsing="false" text="&lt;&lt;"/>
   <Button layoutX="259.0" layoutY="443.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="63.0" text="||"/>
   <Label layoutX="513.0" layoutY="454.0" text="11:14 / 12:31"/>
 </AnchorPane>
