@@ -9,7 +9,7 @@ public class Player {
     private MediaPlayer mediaPlayer;
 
     public void setCurrentSong(Song song){
-        this.currentSong=currentSong;
+        this.currentSong = currentSong;
         //System.out.println("Playing:" +song.getTitle() + "by" + song.getArtist());
     }
     public void play(Song song){
