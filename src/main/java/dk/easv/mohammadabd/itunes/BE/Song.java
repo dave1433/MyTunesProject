@@ -12,14 +12,23 @@ public class Song {
     private final StringProperty genre;
     private Time duration;
     private String filePath;
-
-    public Song(int ID, String title, String artist, String genre, Time duration, String filePath) {
+    private String album;
+    public Song(int ID, String title, String artist, String genre, Time duration, String filePath, String album) {
         this.ID = ID;
         this.title = new SimpleStringProperty(title);
         this.artist = new SimpleStringProperty(artist);
         this.genre = new SimpleStringProperty(genre);
         this.duration = duration;
         this.filePath = filePath;
+        this.album = album;
+    }
+
+    public String getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(String album) {
+        this.album = album;
     }
 
     public int getID() {

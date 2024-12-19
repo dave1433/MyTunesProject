@@ -2,6 +2,7 @@ package dk.easv.mohammadabd.itunes.DAL;
 
 import dk.easv.mohammadabd.itunes.BE.Song;
 
+import javax.management.DescriptorKey;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +29,10 @@ public class DBsong {
                 String genre = resultSet.getString("genre");
                 Time duration = resultSet.getTime("duration");
                 String filePath = resultSet.getString("file_Path");
+                String album = resultSet.getString("album_id");
 
                 // Add a new Song object to the list
-                songs.add(new Song(id, title, artist, genre, duration, filePath));
+                songs.add(new Song(id, title, artist, genre, duration, filePath, album));
             }
 
         } catch (SQLException e) {
@@ -71,9 +73,9 @@ public class DBsong {
                     String genre = resultSet.getString("genre");
                     Time duration = resultSet.getTime("duration");
                     String filePath = resultSet.getString("file_Path");
-
+                    String album = resultSet.getString("album_id");
                     // Create and return the Song object
-                    song = new Song(id, title, artist, genre, duration, filePath);
+                    song = new Song(id, title, artist, genre, duration, filePath, album);
                     System.out.println("Loaded song: ID=" + id + ", Title=" + title + ", Artist=" + artist);
                 } else {
                     System.out.println("No song found with ID: " + songId);
@@ -113,9 +115,9 @@ public class DBsong {
                     String genre = resultSet.getString("genre");
                     Time duration = resultSet.getTime("duration");
                     String filePath = resultSet.getString("file_Path");
-
+                    String album = resultSet.getString("album_id");
                     // Create and return the Song object
-                    song = new Song(id, title, artist, genre, duration, filePath);
+                    song = new Song(id, title, artist, genre, duration, filePath, album);
                     System.out.println("Loaded song: Title='" + title + "', ID=" + id + ", Artist=" + artist);
                 } else {
                     System.out.println("No song found with Title: " + songTitle);
@@ -155,9 +157,9 @@ public class DBsong {
                     String Genre = resultSet.getString("genre");
                     Time duration = resultSet.getTime("duration");
                     String filePath = resultSet.getString("file_Path");
-
+                    String album = resultSet.getString("album_id");
                     // Add the song to the list
-                    songs.add(new Song(id, title, artist, Genre, duration, filePath));
+                    songs.add(new Song(id, title, artist, Genre, duration, filePath, album));
                     System.out.println("Loaded song: Title='" + title + "', Genre='" + Genre + "'");
                 }
             }
@@ -202,9 +204,9 @@ public class DBsong {
                     String Genre = resultSet.getString("genre");
                     Time duration = resultSet.getTime("duration");
                     String filePath = resultSet.getString("file_Path");
-
+                    String album = resultSet.getString("album_id");
                     // Add the song to the list
-                    songs.add(new Song(id, title, Artist, Genre, duration, filePath));
+                    songs.add(new Song(id, title, Artist, Genre, duration, filePath, album));
                     System.out.println("Loaded song: Title='" + title + "', Genre='" + Genre + "'");
                 }
             }
@@ -220,5 +222,35 @@ public class DBsong {
         }
 
         return songs;
+    }
+
+    // add new song to database
+    @DescriptorKey("title, artist, genre, duration, file_path")
+    public boolean addSong(Song song) {
+        String query = "INSERT INTO myTunesOG.songs (title, artist, genre, duration, file_Path, album_id) VALUES (?, ?, ?, ?, ?, ?)";
+
+        // Try-with-resources ensures the connection gets closed automatically
+        try (Connection connection = new dbConnector().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            // Set parameters for the query
+            preparedStatement.setString(1, song.getTitle());
+            preparedStatement.setString(2, song.getArtist());
+            preparedStatement.setString(3, song.getGenre());
+            preparedStatement.setTime(4, song.getDuration());
+            preparedStatement.setString(5, song.getFilePath());
+            preparedStatement.setString(6, song.getAlbum());
+
+            // Execute the insert query
+            int rowsInserted = preparedStatement.executeUpdate();
+            System.out.println("Successfully added new song: " + song.getTitle());
+
+            return rowsInserted > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Error while adding new song to database.");
+            e.printStackTrace();
+            return false;
+        }
     }
 }

@@ -1,4 +1,4 @@
-package dk.easv.mohammadabd.itunes.BLL;
+package dk.easv.mohammadabd.itunes.GUI.model;
 
 import dk.easv.mohammadabd.itunes.BE.Song;
 

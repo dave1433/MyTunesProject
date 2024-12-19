@@ -1,8 +1,10 @@
 package dk.easv.mohammadabd.itunes.DAL;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
+import dk.easv.mohammadabd.itunes.BE.Song;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class dbConnector {
@@ -41,4 +43,5 @@ public class dbConnector {
             throw new RuntimeException("Unable to establish a connection to the database.", e);
         }
     }
+
 }

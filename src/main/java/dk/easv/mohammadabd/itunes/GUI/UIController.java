@@ -1,15 +1,17 @@
 package dk.easv.mohammadabd.itunes.GUI;
 
 import dk.easv.mohammadabd.itunes.BE.Song;
-import dk.easv.mohammadabd.itunes.BLL.Playlist;
-import dk.easv.mohammadabd.itunes.BLL.PlaylistManager;
-import dk.easv.mohammadabd.itunes.BLL.SongManager;
+import dk.easv.mohammadabd.itunes.GUI.model.Playlist;
+import dk.easv.mohammadabd.itunes.GUI.model.PlaylistManager;
+import dk.easv.mohammadabd.itunes.GUI.model.SongManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+
+import java.sql.Time;
 
 public class UIController {
 
@@ -45,7 +47,8 @@ public class UIController {
     @FXML
     private void onAddSongClicked() {
         // Example of adding a new song
-        Song newSong = new Song(1, "New Song", "Unknown Artist", "Pop", null, "path/to/file");
+        Time duration = Time.valueOf("00:26:13");
+        Song newSong = new Song(1, "New Song", "Unknown Artist", "Pop", duration, "path/to/file", "new Album");
         songManager.addSong(newSong);
         refreshTableView();
     }

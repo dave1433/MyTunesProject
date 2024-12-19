@@ -1,11 +1,14 @@
 package dk.easv.mohammadabd.itunes.GUI;
 
+import dk.easv.mohammadabd.itunes.BE.Song;
 import dk.easv.mohammadabd.itunes.DAL.DBsong;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.sql.Time;
+import java.time.LocalTime;
 
 public class Main extends Application {
 
@@ -44,6 +47,11 @@ public class Main extends Application {
         //getting a song by artist name
         dbs.getSongByArtist("Bad boys");
 
+
+        // add a new song to database
+        Time duration = Time.valueOf("00:26:13");
+        Song newSong = new Song(1, "New Song", "Mohammad Abd Al Rahem", "Jaz", duration, "path/to/file", "Moon");
+        // dbs.addSong(newSong);
     }
 
     public static void main(String[] args) {
