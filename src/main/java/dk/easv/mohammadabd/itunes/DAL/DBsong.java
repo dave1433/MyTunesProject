@@ -10,7 +10,6 @@ public class DBsong {
     // Method to fetch data from the song table
     public List<Song> getAllSongs() {
         List<Song> songs = new ArrayList<>();
-
         // Correct the column names based on the database table schema
         String query = "select * from myTunesOG.songs";
 
