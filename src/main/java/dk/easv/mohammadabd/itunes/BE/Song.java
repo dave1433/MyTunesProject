@@ -1,20 +1,23 @@
 package dk.easv.mohammadabd.itunes.BE;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.sql.Time;
 
 public class Song {
     private int ID;
-    private String title;
-    private String artist;
-    private String genre;
+    private final StringProperty title;
+    private final StringProperty artist;
+    private final StringProperty genre;
     private Time duration;
     private String filePath;
 
     public Song(int ID, String title, String artist, String genre, Time duration, String filePath) {
         this.ID = ID;
-        this.title = title;
-        this.artist = artist;
-        this.genre = genre;
+        this.title = new SimpleStringProperty(title);
+        this.artist = new SimpleStringProperty(artist);
+        this.genre = new SimpleStringProperty(genre);
         this.duration = duration;
         this.filePath = filePath;
     }
@@ -23,15 +26,15 @@ public class Song {
         return ID;
     }
 
-    public String getTitle() {
+    public StringProperty titleProperty() {
         return title;
     }
 
-    public String getArtist() {
+    public StringProperty artistProperty() {
         return artist;
     }
 
-    public String getGenre() {
+    public StringProperty genreProperty() {
         return genre;
     }
 
@@ -51,16 +54,28 @@ public class Song {
         this.filePath = filePath;
     }
 
+    public String getTitle() {
+        return title.get();
+    }
+
     public void setTitle(String title) {
-        this.title = title;
+        this.title.set(title);
+    }
+
+    public String getArtist() {
+        return artist.get();
     }
 
     public void setArtist(String artist) {
-        this.artist = artist;
+        this.artist.set(artist);
+    }
+
+    public String getGenre() {
+        return genre.get();
     }
 
     public void setGenre(String genre) {
-        this.genre = genre;
+        this.genre.set(genre);
     }
 
     public void setDuration(Time duration) {
