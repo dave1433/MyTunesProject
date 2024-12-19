@@ -1,6 +1,6 @@
 package dk.easv.mohammadabd.itunes.GUI;
 
-import dk.easv.mohammadabd.itunes.DAL.DBson;
+import dk.easv.mohammadabd.itunes.DAL.DBsong;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
