@@ -9,43 +9,56 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0"
-            prefWidth="815.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-  <ListView layoutX="595.0" layoutY="31.0" prefHeight="185.0" prefWidth="219.0">
+            prefWidth="815.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="dk.easv.mohammadabd.itunes.GUI.UIController">
+
+  <!-- Playlist List -->
+  <ListView fx:id="playlistListView" layoutX="595.0" layoutY="31.0" prefHeight="185.0" prefWidth="219.0">
     <contextMenu>
       <ContextMenu>
         <items>
-          <MenuItem mnemonicParsing="false"/>
-          <MenuItem mnemonicParsing="false" text="Create"/>
-          <MenuItem mnemonicParsing="false" text="Create"/>
-          <MenuItem mnemonicParsing="false" text="Unspecified Action"/>
-          <MenuItem mnemonicParsing="false" text="Unspecified Action"/>
-          <MenuItem mnemonicParsing="false" text="Unspecified Action"/>
-          <CustomMenuItem mnemonicParsing="false" text="Unspecified Action">
-            <content>
-              <CheckBox text="Click Me"/>
-            </content>
-          </CustomMenuItem>
+          <MenuItem mnemonicParsing="false" text="Create Playlist"/>
+          <MenuItem mnemonicParsing="false" text="Delete Playlist"/>
         </items>
       </ContextMenu>
     </contextMenu>
   </ListView>
-  <ListView layoutX="595.0" layoutY="216.0" prefHeight="281.0" prefWidth="219.0"/>
-  <Slider layoutX="3.0" layoutY="412.0" prefHeight="14.0" prefWidth="593.0"/>
-  <Button layoutX="338.0" layoutY="450.0" mnemonicParsing="false" opacity="0.67" text="&gt;"/>
-  <Button layoutX="214.0" layoutY="450.0" mnemonicParsing="false" opacity="0.67" text="&lt;"/>
-  <Button layoutX="373.0" layoutY="450.0" mnemonicParsing="false" opacity="0.67" text="&gt;&gt;"/>
-  <Button layoutX="171.0" layoutY="450.0" mnemonicParsing="false" opacity="0.67" text="&lt;&lt;"/>
-  <Button layoutX="259.0" layoutY="443.0" mnemonicParsing="false" opacity="0.69" prefHeight="40.0" prefWidth="63.0"
-          text="||">
-    <opaqueInsets>
-      <Insets/>
-    </opaqueInsets>
-  </Button>
-  <Label layoutX="513.0" layoutY="454.0" opacity="0.71" text="11:14 / 12:31"/>
-  <TextField layoutX="595.0" layoutY="5.0" prefHeight="25.0" prefWidth="219.0" promptText="Search for song"/>
+
+  <!-- Song List -->
+  <TableView fx:id="songTableView" layoutX="10.0" layoutY="31.0" prefHeight="375.0" prefWidth="575.0">
+    <columns>
+      <TableColumn fx:id="titleColumn" text="Title" prefWidth="200.0"/>
+      <TableColumn fx:id="artistColumn" text="Artist" prefWidth="150.0"/>
+      <TableColumn fx:id="genreColumn" text="Genre" prefWidth="125.0"/>
+    </columns>
+  </TableView>
+
+  <!-- Search Field -->
+  <TextField fx:id="searchField" layoutX="595.0" layoutY="5.0" prefHeight="25.0" prefWidth="219.0"
+             promptText="Search for song"/>
+
+  <!-- Buttons -->
+  <Button fx:id="addSongButton" layoutX="595.0" layoutY="250.0" mnemonicParsing="false" text="Add Song"
+          onAction="#onAddSongClicked"/>
+  <Button fx:id="removeSongButton" layoutX="595.0" layoutY="290.0" mnemonicParsing="false" text="Remove Song"
+          onAction="#onRemoveSongClicked"/>
+  <Button fx:id="createPlaylistButton" layoutX="595.0" layoutY="330.0" mnemonicParsing="false" text="Create Playlist"
+          onAction="#onCreatePlaylistClicked"/>
+  <Button fx:id="deletePlaylistButton" layoutX="595.0" layoutY="370.0" mnemonicParsing="false" text="Delete Playlist"
+          onAction="#onDeletePlaylistClicked"/>
+
+  <!-- Media Control Buttons -->
+  <Slider fx:id="progressSlider" layoutX="10.0" layoutY="450.0" prefWidth="575.0"/>
+  <Button layoutX="338.0" layoutY="450.0" mnemonicParsing="false" text="&gt;"/>
+  <Button layoutX="214.0" layoutY="450.0" mnemonicParsing="false" text="&lt;"/>
+  <Button layoutX="373.0" layoutY="450.0" mnemonicParsing="false" text="&gt;&gt;"/>
+  <Button layoutX="171.0" layoutY="450.0" mnemonicParsing="false" text="&lt;&lt;"/>
+  <Button layoutX="259.0" layoutY="443.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="63.0" text="||"/>
+  <Label layoutX="513.0" layoutY="454.0" text="11:14 / 12:31"/>
 </AnchorPane>
