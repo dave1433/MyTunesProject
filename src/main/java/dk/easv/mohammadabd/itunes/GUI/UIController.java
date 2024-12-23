@@ -48,7 +48,7 @@ public class UIController {
     private void onAddSongClicked() {
         // Example of adding a new song
         Time duration = Time.valueOf("00:26:13");
-        Song newSong = new Song(1, "New Song", "Unknown Artist", "Pop", duration, "path/to/file", "new Album");
+        Song newSong = new Song(1, "Smooth Criminal", "Mickel Jakson", "Pop", duration, "path/to/file", "Moon");
         songManager.addSong(newSong);
         refreshTableView();
     }

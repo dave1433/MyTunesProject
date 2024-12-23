@@ -6,7 +6,7 @@ import java.util.Map;
 import dk.easv.mohammadabd.itunes.BE.Song;
 
 public class PlaylistManager {
-    private Map<String, Playlist> playlists;
+    private  Map<String, Playlist> playlists;
 
     public PlaylistManager() {
         this.playlists = new HashMap<>();
