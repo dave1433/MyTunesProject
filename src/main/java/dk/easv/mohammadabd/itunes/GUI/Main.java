@@ -1,11 +1,14 @@
 package dk.easv.mohammadabd.itunes.GUI;
 
+import dk.easv.mohammadabd.itunes.BE.Song;
 import dk.easv.mohammadabd.itunes.DAL.DBsong;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import java.io.IOException;
+import java.sql.Time;
 
 public class Main extends Application {
 
@@ -43,6 +46,19 @@ public class Main extends Application {
 
         //getting a song by artist name
         dbs.getSongByArtist("Bad boys");
+        Time dur = Time.valueOf("00:25:43");
+        Song song = new Song(1, "test", "test", "test", dur, "./music/file.mp3", "test");
+
+
+        // add song to the table
+        dbs.addSong(song);
+
+
+        //update song by id
+        dbs.updateSong(song, 1);
+
+        // delete a song from the table
+        dbs.deleteSong(1);
 
     }
 

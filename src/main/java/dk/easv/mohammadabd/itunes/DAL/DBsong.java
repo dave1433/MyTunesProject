@@ -225,7 +225,6 @@ public class DBsong {
     }
 
     // add new song to database
-    @DescriptorKey("title, artist, genre, duration, file_path")
     public boolean addSong(Song song) {
         String query = "INSERT INTO myTunesOG.Songs (title, artist, genre, duration, file_Path, album_id) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -253,4 +252,64 @@ public class DBsong {
             return false;
         }
     }
+
+
+    public boolean updateSong(Song song, int id) {
+        String query = "UPDATE myTunesOG.Songs SET title = ?, artist = ?, genre = ?, duration = ?, file_Path = ?, album_id = ? WHERE song_id = ?";
+
+        // Try-with-resources ensures the connection gets closed automatically
+        try (Connection connection = new dbConnector().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            // Set parameters for the query
+            preparedStatement.setString(1, song.getTitle());
+            preparedStatement.setString(2, song.getArtist());
+            preparedStatement.setString(3, song.getGenre());
+            preparedStatement.setTime(4, song.getDuration());
+            preparedStatement.setString(5, song.getFilePath());
+            preparedStatement.setString(6, song.getAlbum());
+
+            preparedStatement.setString(7, String.valueOf(id));
+
+
+            // Execute the update query
+            int rowsUpdated = preparedStatement.executeUpdate();
+            System.out.println("Successfully updated song: " + song.getTitle());
+
+            return rowsUpdated > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Error while updating song in database.");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    public boolean deleteSong(int songId) {
+        String query = "DELETE FROM myTunesOG.Songs WHERE song_id = ?";
+
+        // Try-with-resources ensures the connection gets closed automatically
+        try (Connection connection = new dbConnector().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            // Set the song_id to the prepared statement
+            preparedStatement.setInt(1, songId);
+
+            // Execute the delete query
+            int rowsDeleted = preparedStatement.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Successfully deleted song with ID: " + songId);
+            }
+
+            return rowsDeleted > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Error while deleting song from database.");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 }
