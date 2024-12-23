@@ -227,7 +227,7 @@ public class DBsong {
     // add new song to database
     @DescriptorKey("title, artist, genre, duration, file_path")
     public boolean addSong(Song song) {
-        String query = "INSERT INTO myTunesOG.songs (title, artist, genre, duration, file_Path, album_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO myTunesOG.Songs (title, artist, genre, duration, file_Path, album_id) VALUES (?, ?, ?, ?, ?, ?)";
 
         // Try-with-resources ensures the connection gets closed automatically
         try (Connection connection = new dbConnector().getConnection();
