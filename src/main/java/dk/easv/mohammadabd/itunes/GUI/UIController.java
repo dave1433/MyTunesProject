@@ -47,8 +47,7 @@ public class UIController {
     @FXML
     private void onAddSongClicked() {
         // Example of adding a new song
-        Time duration = Time.valueOf("00:26:13");
-        Song newSong = new Song(1, "Smooth Criminal", "Mickel Jakson", "Pop", duration, "path/to/file", "Moon");
+        Song newSong = new Song(1, "Smooth Criminal", "Mickel Jakson", "Pop", 8400, "path/to/file", "Moon", 5);
         songManager.addSong(newSong);
         refreshTableView();
     }

@@ -27,12 +27,13 @@ public class DBsong {
                 String title = resultSet.getString("title");
                 String artist = resultSet.getString("album_id");
                 String genre = resultSet.getString("genre");
-                Time duration = resultSet.getTime("duration");
+                long duration = resultSet.getLong("duration");
                 String filePath = resultSet.getString("file_Path");
                 String album = resultSet.getString("album_id");
+                int playlistId = resultSet.getInt("playlist_id");
 
                 // Add a new Song object to the list
-                songs.add(new Song(id, title, artist, genre, duration, filePath, album));
+                songs.add(new Song(id, title, artist, genre, duration, filePath, album, playlistId));
             }
 
         } catch (SQLException e) {
@@ -48,6 +49,48 @@ public class DBsong {
         return songs;
     }
 
+    public Song getplaylist_id(int playlistid) {
+        Song song = null;
+
+        // Query to fetch a specific song by its ID
+        String query = "SELECT * FROM myTunesOG.songs WHERE playlist_id = ?";
+
+        // Attempt to connect to the database and execute the query
+        try (Connection connection = new dbConnector().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            // Set the parameter for the query
+            preparedStatement.setInt(1, playlistid);
+
+            // Execute the query
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                System.out.println("Executing query: " + query);
+
+                // Process the result (if a song is found)
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("song_id");
+                    String title = resultSet.getString("title");
+                    String artist = resultSet.getString("album_id");
+                    String genre = resultSet.getString("genre");
+                    long duration = resultSet.getLong("duration");
+                    String filePath = resultSet.getString("file_Path");
+                    String album = resultSet.getString("album_id");
+                    int playlistId = resultSet.getInt("playlist_id");
+                    // Create and return the Song object
+                    song = new Song(id, title, artist, genre, duration, filePath, album, playlistId);
+                    System.out.println("Loaded song: ID=" + id + ", Title=" + title + ", Artist=" + artist + ", Genre=" + genre + ", Duration=" + duration + ", FilePath=" + filePath + ", Album=" + album + ", PlaylistId=" + playlistId);
+                } else {
+                    System.out.println("No song found with playlist_ID: " + playlistid);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error while fetching song with playlist_ID: " + playlistid);
+            e.printStackTrace();
+        }
+
+        return song;
+    }
     public Song getSongById(int songId) {
         Song song = null;
 
@@ -71,11 +114,12 @@ public class DBsong {
                     String title = resultSet.getString("title");
                     String artist = resultSet.getString("album_id");
                     String genre = resultSet.getString("genre");
-                    Time duration = resultSet.getTime("duration");
+                    long duration = resultSet.getLong("duration");
                     String filePath = resultSet.getString("file_Path");
                     String album = resultSet.getString("album_id");
+                    int playlistId = resultSet.getInt("playlist_id");
                     // Create and return the Song object
-                    song = new Song(id, title, artist, genre, duration, filePath, album);
+                    song = new Song(id, title, artist, genre, duration, filePath, album, playlistId);
                     System.out.println("Loaded song: ID=" + id + ", Title=" + title + ", Artist=" + artist);
                 } else {
                     System.out.println("No song found with ID: " + songId);
@@ -113,11 +157,12 @@ public class DBsong {
                     String title = resultSet.getString("title");
                     String artist = resultSet.getString("album_id");
                     String genre = resultSet.getString("genre");
-                    Time duration = resultSet.getTime("duration");
+                    long duration = resultSet.getLong("duration");
                     String filePath = resultSet.getString("file_Path");
                     String album = resultSet.getString("album_id");
+                    int playlistId = resultSet.getInt("playlist_id");
                     // Create and return the Song object
-                    song = new Song(id, title, artist, genre, duration, filePath, album);
+                    song = new Song(id, title, artist, genre, duration, filePath, album, playlistId);
                     System.out.println("Loaded song: Title='" + title + "', ID=" + id + ", Artist=" + artist);
                 } else {
                     System.out.println("No song found with Title: " + songTitle);
@@ -155,11 +200,12 @@ public class DBsong {
                     String title = resultSet.getString("title");
                     String artist = resultSet.getString("album_id");
                     String Genre = resultSet.getString("genre");
-                    Time duration = resultSet.getTime("duration");
+                    long duration = resultSet.getLong("duration");
                     String filePath = resultSet.getString("file_Path");
                     String album = resultSet.getString("album_id");
+                    int playlistId = resultSet.getInt("playlist_id");
                     // Add the song to the list
-                    songs.add(new Song(id, title, artist, Genre, duration, filePath, album));
+                    songs.add(new Song(id, title, artist, Genre, duration, filePath, album, playlistId));
                     System.out.println("Loaded song: Title='" + title + "', Genre='" + Genre + "'");
                 }
             }
@@ -202,11 +248,12 @@ public class DBsong {
                     String title = resultSet.getString("title");
                     String Artist = resultSet.getString("album_id");
                     String Genre = resultSet.getString("genre");
-                    Time duration = resultSet.getTime("duration");
+                    long duration = resultSet.getLong("duration");
                     String filePath = resultSet.getString("file_Path");
                     String album = resultSet.getString("album_id");
+                    int playlistId = resultSet.getInt("playlist_id");
                     // Add the song to the list
-                    songs.add(new Song(id, title, Artist, Genre, duration, filePath, album));
+                    songs.add(new Song(id, title, Artist, Genre, duration, filePath, album, playlistId));
                     System.out.println("Loaded song: Title='" + title + "', Genre='" + Genre + "'");
                 }
             }
@@ -226,7 +273,7 @@ public class DBsong {
 
     // add new song to database
     public boolean addSong(Song song) {
-        String query = "INSERT INTO myTunesOG.Songs (title, artist, genre, duration, file_Path, album_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO myTunesOG.Songs (title, artist, genre, duration, file_Path, album_id, playlist_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         // Try-with-resources ensures the connection gets closed automatically
         try (Connection connection = new dbConnector().getConnection();
@@ -236,9 +283,10 @@ public class DBsong {
             preparedStatement.setString(1, song.getTitle());
             preparedStatement.setString(2, song.getArtist());
             preparedStatement.setString(3, song.getGenre());
-            preparedStatement.setTime(4, song.getDuration());
+            preparedStatement.setLong(4, song.getDuration());
             preparedStatement.setString(5, song.getFilePath());
             preparedStatement.setString(6, song.getAlbum());
+            preparedStatement.setInt(7, song.getPlaylist_id());
 
             // Execute the insert query
             int rowsInserted = preparedStatement.executeUpdate();
@@ -255,7 +303,7 @@ public class DBsong {
 
 
     public boolean updateSong(Song song, int id) {
-        String query = "UPDATE myTunesOG.Songs SET title = ?, artist = ?, genre = ?, duration = ?, file_Path = ?, album_id = ? WHERE song_id = ?";
+        String query = "UPDATE myTunesOG.Songs SET title = ?, artist = ?, genre = ?, duration = ?, file_Path = ?, album_id = ?, playlist_id = ? WHERE song_id = ?";
 
         // Try-with-resources ensures the connection gets closed automatically
         try (Connection connection = new dbConnector().getConnection();
@@ -265,11 +313,12 @@ public class DBsong {
             preparedStatement.setString(1, song.getTitle());
             preparedStatement.setString(2, song.getArtist());
             preparedStatement.setString(3, song.getGenre());
-            preparedStatement.setTime(4, song.getDuration());
+            preparedStatement.setLong(4, song.getDuration());
             preparedStatement.setString(5, song.getFilePath());
             preparedStatement.setString(6, song.getAlbum());
+            preparedStatement.setInt(7, song.getPlaylist_id());
 
-            preparedStatement.setString(7, String.valueOf(id));
+            preparedStatement.setString(8, String.valueOf(id));
 
 
             // Execute the update query

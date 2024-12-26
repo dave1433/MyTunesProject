@@ -10,10 +10,12 @@ public class Song {
     private final StringProperty title;
     private final StringProperty artist;
     private final StringProperty genre;
-    private Time duration;
+    private long duration;
     private String filePath;
     private String album;
-    public Song(int ID, String title, String artist, String genre, Time duration, String filePath, String album) {
+    private int playlist_id;
+
+    public Song(int ID, String title, String artist, String genre, long duration, String filePath, String album, int playlist_id) {
         this.ID = ID;
         this.title = new SimpleStringProperty(title);
         this.artist = new SimpleStringProperty(artist);
@@ -21,6 +23,15 @@ public class Song {
         this.duration = duration;
         this.filePath = filePath;
         this.album = album;
+        this.playlist_id = playlist_id;
+    }
+
+    public int getPlaylist_id(){
+        return playlist_id;
+    }
+
+    public void setPlaylist_id(int playlist_id){
+        this.playlist_id = playlist_id;
     }
 
     public String getAlbum() {
@@ -47,7 +58,7 @@ public class Song {
         return genre;
     }
 
-    public Time getDuration() {
+    public long getDuration() {
         return duration;
     }
 
@@ -87,7 +98,19 @@ public class Song {
         this.genre.set(genre);
     }
 
-    public void setDuration(Time duration) {
+    public void setDuration(long duration) {
         this.duration = duration;
     }
+    @Override
+    public String toString() {
+        return "Song{" +
+                "id=" + getID() +
+                ", name='" + getTitle() +
+                ", totalDuration=" + getDuration() +
+                ", playlistId=" + getPlaylist_id() +
+                '}';
+    }
 }
+
+
+
