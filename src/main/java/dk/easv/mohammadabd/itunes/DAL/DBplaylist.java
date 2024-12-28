@@ -131,10 +131,6 @@ public class DBplaylist {
 
                         Playlistsong.addSong(songsInPlayList);
 
-                    for(Song s : Playlistsong.getSongs()){
-                        System.out.println(Playlistsong.getSongs());
-                        System.out.println("new method goes here for testing ... " + s);
-                    }
                     }
                 }
                 System.out.println("PlayListSong ArrayList in playlist is : " + Playlistsong);

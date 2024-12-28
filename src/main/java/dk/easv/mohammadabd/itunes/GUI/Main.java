@@ -81,14 +81,17 @@ public class Main extends Application {
 
         // Add a song to a playlist (assuming you have a song object)
         Song song2 = new Song(1, "Bohemian Rhapsody", "Queen", "Rock", 8700, "/path/to/song", "A Night at the Opera", 4);
-        controller.addSongToPlaylist(1, song2);
+        //controller.addSongToPlaylist(1, song2);
        // controller.addSongToPlaylist(1, song);
        // controller.showPlaylistById(1);
-        controller.showPlayListSongs(1);
+       // controller.showPlayListSongs(1);
 
 
-        // check getting the songs in the playlist
+        // getting all the playlists
+        controller.showAllPlaylists();
 
+        controller.showPlayListSongs(4);
+        controller.showPlaylistById(4);
     }
 
 

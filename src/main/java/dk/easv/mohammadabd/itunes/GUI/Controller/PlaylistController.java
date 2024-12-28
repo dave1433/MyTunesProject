@@ -36,11 +36,17 @@ public class PlaylistController {
     }
 
     public void showPlayListSongs(int playlistId) {
-        Playlist playlist = playlistManager.getPlaylistById(playlistId); // Fetch playlist by ID
+
+        List<Song> playlist = playlistManager.getPlayListSongs(playlistId);
         if (playlist == null) {
             System.out.println("Playlist with ID " + playlistId + " not found.");
         } else {
-            playlist.getSongs().forEach(song -> System.out.println(song));
+            if(playlist.isEmpty()) {
+                System.out.println("No songs found for playlist with ID " + playlistId + ".");
+            }else{
+                playlist.forEach(song -> System.out.println(song));
+            }
+
         }
     }
 

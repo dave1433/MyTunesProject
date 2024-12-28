@@ -49,48 +49,57 @@ public class DBsong {
         return songs;
     }
 
-    public Song getplaylist_id(int playlistid) {
-        Song song = null;
+    public List<Song> getplaylist_id(int playlistid) {
+        List<Song> songslist = new ArrayList<>();
 
-        // Query to fetch a specific song by its ID
+        // Query to fetch songs for the given playlist ID
         String query = "SELECT * FROM myTunesOG.songs WHERE playlist_id = ?";
 
         // Attempt to connect to the database and execute the query
         try (Connection connection = new dbConnector().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            // Set the parameter for the query
+            // Set the parameter for the query (playlist_id)
             preparedStatement.setInt(1, playlistid);
 
             // Execute the query
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 System.out.println("Executing query: " + query);
 
-                // Process the result (if a song is found)
-                if (resultSet.next()) {
+                // Iterate through all the result rows and process each song
+                while (resultSet.next()) {
                     int id = resultSet.getInt("song_id");
                     String title = resultSet.getString("title");
-                    String artist = resultSet.getString("album_id");
+                    String artist = resultSet.getString("artist");  // Corrected: Assuming there's an "artist" column
                     String genre = resultSet.getString("genre");
                     long duration = resultSet.getLong("duration");
                     String filePath = resultSet.getString("file_Path");
                     String album = resultSet.getString("album_id");
                     int playlistId = resultSet.getInt("playlist_id");
-                    // Create and return the Song object
-                    song = new Song(id, title, artist, genre, duration, filePath, album, playlistId);
+
+                    // Create a Song object from the data
+                    Song song = new Song(id, title, artist, genre, duration, filePath, album, playlistId);
                     System.out.println("Loaded song: ID=" + id + ", Title=" + title + ", Artist=" + artist + ", Genre=" + genre + ", Duration=" + duration + ", FilePath=" + filePath + ", Album=" + album + ", PlaylistId=" + playlistId);
-                } else {
-                    System.out.println("No song found with playlist_ID: " + playlistid);
+
+                    // Add the song to the list
+                    songslist.add(song);
                 }
+
+                // If no songs were found, print a message
+                if (songslist.isEmpty()) {
+                    System.out.println("No songs found for playlist_id " + playlistid);
+                }
+
             }
 
         } catch (SQLException e) {
-            System.err.println("Error while fetching song with playlist_ID: " + playlistid);
+            System.err.println("Error while fetching songs with playlist_ID: " + playlistid);
             e.printStackTrace();
         }
 
-        return song;
+        return songslist;
     }
+
     public Song getSongById(int songId) {
         Song song = null;
 

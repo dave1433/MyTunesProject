@@ -103,7 +103,7 @@ public class Song {
     }
     @Override
     public String toString() {
-        return "Song{" +
+        return "{" +
                 "id=" + getID() +
                 ", name='" + getTitle() +
                 ", totalDuration=" + getDuration() +

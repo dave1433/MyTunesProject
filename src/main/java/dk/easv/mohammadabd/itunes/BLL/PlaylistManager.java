@@ -3,16 +3,18 @@ package dk.easv.mohammadabd.itunes.BLL;
 import dk.easv.mohammadabd.itunes.DAL.DBplaylist;
 import dk.easv.mohammadabd.itunes.BE.Playlist;
 import dk.easv.mohammadabd.itunes.BE.Song;
-
+import dk.easv.mohammadabd.itunes.DAL.DBsong;
 import java.util.List;
 
 public class PlaylistManager {
 
     private DBplaylist dbPlaylist; // Data Access Layer (DAL) for playlists
+    private DBsong dbSong; // Data Access Layer (DAL) for songs
 
     // Constructor
     public PlaylistManager() {
-        dbPlaylist = new DBplaylist();
+        dbPlaylist = new DBplaylist(); // Initialize dbPlaylist
+        dbSong = new DBsong(); // Initialize dbSong
     }
 
     // Fetch all playlists from the database
@@ -23,6 +25,14 @@ public class PlaylistManager {
     // Get playlist by ID
     public Playlist getPlaylistById(int playlistId) {
         return dbPlaylist.getPlaylistById(playlistId); // Fetches playlist by ID using DBplaylist
+    }
+
+    // Get songs by playlist ID
+    public List<Song> getPlayListSongs(int playlistId) {
+        if (dbSong == null) {
+            throw new IllegalStateException("dbSong is not initialized");
+        }
+        return dbSong.getplaylist_id(playlistId); // Fetches songs by playlist ID using DBsong
     }
 
     // Add a new playlist to the database
@@ -49,21 +59,15 @@ public class PlaylistManager {
         return dbPlaylist.deletePlaylist(playlistId); // Delete the playlist from the database
     }
 
-    // Optionally, add a song to the playlist (you might have methods in the BLL to manage songs as well)
+    // Optionally, add a song to the playlist
     public boolean addSongToPlaylist(int playlistId, Song song) {
-        // For this example, you could add logic to associate a song with a playlist in your database
-        // You may need a method in DBplaylist to associate songs with playlists
-        // For simplicity, assume there’s a method that adds a song to a playlist in the database.
-
         System.out.println("Adding song to playlist " + playlistId + ": " + song.getTitle());
+        // Implement actual song adding logic here, if necessary
         return true;
     }
 
+    // Get songs in a playlist by ID (assuming this is the correct method in DBplaylist)
     public boolean getSongById(int playlistId, Song song) {
-
-        return dbPlaylist.getSongsInPlaylist(playlistId, song);
-
+        return dbPlaylist.getSongsInPlaylist(playlistId, song); // This method seems to interact with DBplaylist
     }
-
-
 }

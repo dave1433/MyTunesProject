@@ -90,19 +90,6 @@ public class Playlist {
         }
     }
 
-    // ToString method for displaying playlist info
-    @Override
-    public String toString() {
-        return "Playlist{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", totalSongs=" + totalSongs +
-                ", totalDuration=" + totalDuration +
-                ", songs=" + songs +
-                ", playlistId=" + id +
-                '}';
-    }
-
     // Fetch playlist details from the database
     public static Playlist getPlaylistById(int playlistId) {
         DBplaylist dbPlaylist = new DBplaylist();
@@ -146,5 +133,18 @@ public class Playlist {
 
     public void setTotalDuration(long totalDuration) {
         this.totalDuration = totalDuration;
+    }
+
+    // ToString method for displaying playlist info
+    @Override
+    public String toString() {
+        return "Playlist{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", totalSongs=" + totalSongs +
+                ", totalDuration=" + totalDuration +
+                ", songs=" + songs +
+                ", playlistId=" + id +
+                '}';
     }
 }
