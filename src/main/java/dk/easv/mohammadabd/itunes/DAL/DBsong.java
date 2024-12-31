@@ -51,17 +51,14 @@ public class DBsong {
 
     public List<Song> getplaylist_id(int playlistid) {
         List<Song> songslist = new ArrayList<>();
-
         // Query to fetch songs for the given playlist ID
         String query = "SELECT * FROM myTunesOG.songs WHERE playlist_id = ?";
-
         // Attempt to connect to the database and execute the query
         try (Connection connection = new dbConnector().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             // Set the parameter for the query (playlist_id)
             preparedStatement.setInt(1, playlistid);
-
             // Execute the query
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 System.out.println("Executing query: " + query);

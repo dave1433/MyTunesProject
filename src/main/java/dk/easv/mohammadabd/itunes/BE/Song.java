@@ -58,6 +58,14 @@ public class Song {
         return genre;
     }
 
+    public StringProperty albumProperty() {
+        return new SimpleStringProperty(album);
+    }
+
+    public StringProperty durationProperty() {
+        return new SimpleStringProperty(duration+"");
+    }
+
     public long getDuration() {
         return duration;
     }

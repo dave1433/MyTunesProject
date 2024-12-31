@@ -2,6 +2,8 @@ package dk.easv.mohammadabd.itunes.GUI;
 import dk.easv.mohammadabd.itunes.BE.Song;
 import dk.easv.mohammadabd.itunes.DAL.DBsong;
 import dk.easv.mohammadabd.itunes.GUI.Controller.PlaylistController;
+import dk.easv.mohammadabd.itunes.GUI.model.Player;
+import dk.easv.mohammadabd.itunes.GUI.model.SongManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -24,6 +26,7 @@ public class Main extends Application {
 
         // Fetch songs from the database
         fetchAndDisplaySongs();
+
     }
 
     /**
@@ -80,7 +83,7 @@ public class Main extends Application {
       //  controller.deletePlaylist(3);
 
         // Add a song to a playlist (assuming you have a song object)
-        Song song2 = new Song(1, "Bohemian Rhapsody", "Queen", "Rock", 8700, "/path/to/song", "A Night at the Opera", 4);
+        Song song2 = new Song(1, "Bohemian Rhapsody", "Queen", "Rock", 8700, "src/main/resources/music/see-you-later-203103.mp3", "A Night at the Opera", 4);
         //controller.addSongToPlaylist(1, song2);
        // controller.addSongToPlaylist(1, song);
        // controller.showPlaylistById(1);
@@ -92,10 +95,45 @@ public class Main extends Application {
 
         controller.showPlayListSongs(4);
         controller.showPlaylistById(4);
+
+
+        // testing the media player
+        // Add some songs to the SongManager
+        SongManager songManager = new SongManager();
+        songManager.addSong(new Song(1, "eterna-cancao-wav-12569", "eterna", "romanitic", 21000, "eterna-cancao-wav-12569.wav", "new evning", 4));
+        songManager.addSong(new Song(2, "see-you-later", "jack pop", "pop", 14710, "see-you-later-203103.mp3", "new morning", 1));
+
+        // Create a Player instance with the songs from SongManager
+        Player player = new Player(songManager.getSongs());
+        System.out.println(songManager.getSongs());
+
+        // Play the first song
+        player.playSong();
+
+        // Skip forward 15 seconds
+        player.skipForward();
+
+        // Skip backward 15 seconds
+       // player.skipBackward();
+
+        // Play the next song
+        //player.playPreviousSong();
+
+
+
+
+
+        // Play the previous song
+        //player.playPreviousSong();
+
     }
 
 
     public static void main(String[] args) {
         launch();
+
     }
+
+
 }
+

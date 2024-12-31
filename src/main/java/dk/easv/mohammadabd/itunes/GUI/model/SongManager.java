@@ -19,8 +19,11 @@ public class SongManager {
     }
 
     public void removeSong(Song song) {
-        songs.remove(song);
-        System.out.println("Song removed: " + song.getTitle());
+        if (songs.remove(song)) {
+            System.out.println("Song removed: " + song.getTitle());
+        } else {
+            System.out.println("Song not found: " + song.getTitle());
+        }
     }
 
     public List<Song> filterSongs(String query) {
@@ -30,8 +33,15 @@ public class SongManager {
                 .collect(Collectors.toList());
     }
 
-    public List<Song> getSongs() {
+    public  List<Song> getSongs() {
         return new ArrayList<>(songs);
     }
-}
 
+    public Song getSongByIndex(int index) {
+        if (index >= 0 && index < songs.size()) {
+            return songs.get(index);
+        } else {
+            return null;
+        }
+    }
+}
