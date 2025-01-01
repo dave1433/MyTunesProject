@@ -1,4 +1,4 @@
-package dk.easv.mohammadabd.itunes.GUI.Controller;
+package dk.easv.mohammadabd.itunes.GUI.controllers;
 import dk.easv.mohammadabd.itunes.BLL.PlaylistManager;
 import dk.easv.mohammadabd.itunes.BE.Playlist;
 import dk.easv.mohammadabd.itunes.BE.Song;

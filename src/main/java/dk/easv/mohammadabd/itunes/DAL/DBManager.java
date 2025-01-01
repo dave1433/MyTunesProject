@@ -28,7 +28,7 @@ public class DBManager {
     public void setSong(String song) {
         this.song.set(song);
     }
-
+git
     public StringProperty songProperty() {
         return song;
     }
