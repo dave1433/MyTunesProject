@@ -11,6 +11,7 @@ public class Song {
     private final StringProperty artist;
     private final StringProperty genre;
     private long duration;
+    private StringProperty durationStr;
     private String filePath;
     private String album;
     private int playlist_id;
@@ -20,6 +21,7 @@ public class Song {
         this.title = new SimpleStringProperty(title);
         this.artist = new SimpleStringProperty(artist);
         this.genre = new SimpleStringProperty(genre);
+        this.durationStr = new SimpleStringProperty(duration+"");
         this.duration = duration;
         this.filePath = filePath;
         this.album = album;
@@ -63,7 +65,7 @@ public class Song {
     }
 
     public StringProperty durationProperty() {
-        return new SimpleStringProperty(duration+"");
+        return durationStr;
     }
 
     public long getDuration() {

@@ -83,7 +83,7 @@ public class DBplaylist {
              PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             // Set parameters for the query
-            preparedStatement.setString(1, playlist.getName());
+            preparedStatement.setString(1, playlist.getName().toString());
             preparedStatement.setInt(2, playlist.getTotalSongs());
             preparedStatement.setLong(3, playlist.getTotalDuration());
 
@@ -108,7 +108,8 @@ public class DBplaylist {
         return false;
     }
     // Method to add a new playlist to the database
-    public boolean getSongsInPlaylist(int playlist_id, Song song) {
+    public List<Song> getSongsInPlaylist(int playlist_id) {
+        Playlist Playlistsong = new Playlist(null);
         String query = "select * from myTunesOG.songs where playlist_id = ?";
 
 
@@ -123,7 +124,7 @@ public class DBplaylist {
 
             // Execute the insert query
             ResultSet resultSet = preparedStatement.executeQuery();
-            Playlist Playlistsong = new Playlist(null);
+
             // Retrieve the generated playlist ID
                 try (resultSet) {
                     while (resultSet.next() && resultSet.getInt("playlist_id") == playlist_id) {
@@ -133,16 +134,16 @@ public class DBplaylist {
 
                     }
                 }
-                System.out.println("PlayListSong ArrayList in playlist is : " + Playlistsong);
-                return true;
+                System.out.println("PlayListSong ArrayList in playlist are : " + Playlistsong);
+                return Playlistsong.getSongs();
 
 
         } catch (SQLException e) {
             System.err.println("Error while adding playlist to database.");
             e.printStackTrace();
         }
+        return Playlistsong.getSongs();
 
-        return false;
     }
 
     // Method to update an existing playlist in the database
@@ -152,7 +153,7 @@ public class DBplaylist {
         try (Connection connection = new dbConnector().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setString(1, playlist.getName());
+            preparedStatement.setString(1, playlist.getName().toString());
             preparedStatement.setInt(2, playlist.getTotalSongs());
             preparedStatement.setLong(3, playlist.getTotalDuration());
             preparedStatement.setInt(4, playlistId);

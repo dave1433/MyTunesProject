@@ -2,6 +2,7 @@ package dk.easv.mohammadabd.itunes.BE;
 
 import dk.easv.mohammadabd.itunes.BE.Song;
 import dk.easv.mohammadabd.itunes.DAL.DBplaylist;
+import javafx.beans.property.SimpleStringProperty;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class Playlist {
         this.totalDuration = totalDuration;
     }
 
+
+
     // Getter and Setter methods
     public int getId() {
         return id;
@@ -40,8 +43,8 @@ public class Playlist {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public SimpleStringProperty getName() {
+        return new SimpleStringProperty(name);
     }
 
     public void setName(String name) {
@@ -51,6 +54,7 @@ public class Playlist {
     public List<Song> getSongs() {
         return songs;
     }
+
 
     public void setSongs(List<Song> songs) {
         this.songs = songs;
@@ -138,7 +142,7 @@ public class Playlist {
     // ToString method for displaying playlist info
     @Override
     public String toString() {
-        return "Playlist{" +
+        return "{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", totalSongs=" + totalSongs +

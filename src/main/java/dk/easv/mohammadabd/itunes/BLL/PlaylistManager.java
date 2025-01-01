@@ -67,7 +67,18 @@ public class PlaylistManager {
     }
 
     // Get songs in a playlist by ID (assuming this is the correct method in DBplaylist)
-    public boolean getSongById(int playlistId, Song song) {
-        return dbPlaylist.getSongsInPlaylist(playlistId, song); // This method seems to interact with DBplaylist
+    public List<Song> getSongById(int playlistId) {
+        return dbPlaylist.getSongsInPlaylist(playlistId); // This method seems to interact with DBplaylist
     }
+
+    public List<Song> getAllSongs(){
+        if (dbSong == null) {
+            throw new IllegalStateException("dbSong is not initialized");
+        }else
+            return dbSong.getAllSongs();
+
+    }
+
+
+
 }

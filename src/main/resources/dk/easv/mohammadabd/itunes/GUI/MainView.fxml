@@ -10,16 +10,16 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mohammadabd.itunes.GUI.UIController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="814.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mohammadabd.itunes.GUI.UIController">
 
     <!-- Songs List -->
-    <TableView fx:id="songTableView" layoutX="10.0" layoutY="31.0" prefHeight="375.0" prefWidth="584.0">
+    <TableView fx:id="songTableView" layoutX="10.0" layoutY="31.0" prefHeight="375.0" prefWidth="525.0">
         <columns>
             <TableColumn fx:id="titleColumn" prefWidth="120.0" text="Title" />
             <TableColumn fx:id="artistColumn" prefWidth="100.0" text="Artist" />
             <TableColumn fx:id="genreColumn" prefWidth="80.0" text="Genre" />
             <TableColumn fx:id="albumColumn" prefWidth="100.0" text="Album" />
-            <TableColumn fx:id="songDurationColumn" prefWidth="120.0" text="Duration" />
+            <TableColumn fx:id="durationColumn" prefWidth="120.0" text="Duration" />
         </columns>
         <contextMenu>
             <ContextMenu>
@@ -33,7 +33,7 @@
     </TableView>
 
     <!-- Playlist Table -->
-    <TableView fx:id="playlistTableView" layoutX="595.0" layoutY="31.0" prefHeight="185.0" prefWidth="219.0">
+    <TableView fx:id="playlistTableView" layoutX="535.0" layoutY="31.0" prefHeight="185.0" prefWidth="279.0">
         <columns>
             <TableColumn fx:id="playlistNameColumn" prefWidth="100.0" text="Name" />
             <TableColumn fx:id="playlistSongsColumn" prefWidth="70.0" text="Songs" />
@@ -51,7 +51,7 @@
     </TableView>
 
     <!-- Songs in Playlist Table -->
-    <TableView fx:id="songsInPlaylistTableView" layoutX="595.0" layoutY="217.0" prefHeight="278.0" prefWidth="219.0">
+    <TableView fx:id="songsInPlaylistTableView" layoutX="535.0" layoutY="217.0" prefHeight="278.0" prefWidth="279.0">
         <columns>
             <TableColumn fx:id="playlistSongColumn" prefWidth="150.0" text="Song" />
             <TableColumn fx:id="playlistSongDurationColumn" prefWidth="70.0" text="Duration" />
@@ -66,14 +66,14 @@
     </TableView>
 
     <!-- Search Field -->
-    <TextField fx:id="searchField" layoutX="595.0" layoutY="5.0" prefHeight="25.0" prefWidth="219.0" promptText="Search for song" onInputMethodTextChanged="#onSearchFieldUpdated" />
+    <TextField fx:id="searchField" layoutX="535.0" layoutY="5.0" onInputMethodTextChanged="#onSearchFieldUpdated" prefHeight="25.0" prefWidth="279.0" promptText="Search for song" />
 
     <!-- Media Control Buttons -->
-    <Slider fx:id="progressSlider" layoutX="10.0" layoutY="421.0" prefWidth="575.0" />
+    <Slider fx:id="progressSlider" layoutX="10.0" layoutY="421.0" prefHeight="14.0" prefWidth="525.0" />
     <Button layoutX="338.0" layoutY="450.0" mnemonicParsing="false" text="▶" />
     <Button layoutX="214.0" layoutY="450.0" mnemonicParsing="false" text="⏮" />
     <Button layoutX="373.0" layoutY="450.0" mnemonicParsing="false" text="⏭" />
     <Button layoutX="171.0" layoutY="450.0" mnemonicParsing="false" text="⏪" />
     <Button layoutX="259.0" layoutY="443.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="63.0" text="⏸" />
-    <Label layoutX="513.0" layoutY="454.0" text="11:14 / 12:31" />
+    <Label layoutX="450.0" layoutY="454.0" text="11:14 / 12:31" />
 </AnchorPane>
