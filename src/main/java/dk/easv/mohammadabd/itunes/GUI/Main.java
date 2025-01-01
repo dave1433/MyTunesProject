@@ -1,7 +1,7 @@
 package dk.easv.mohammadabd.itunes.GUI;
 import dk.easv.mohammadabd.itunes.BE.Song;
 import dk.easv.mohammadabd.itunes.DAL.DBsong;
-import dk.easv.mohammadabd.itunes.GUI.Controller.PlaylistController;
+import dk.easv.mohammadabd.itunes.GUI.controllers.PlaylistController;
 import dk.easv.mohammadabd.itunes.GUI.model.Player;
 import dk.easv.mohammadabd.itunes.GUI.model.SongManager;
 import javafx.application.Application;
