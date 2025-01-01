@@ -1,3 +1,4 @@
+
 package dk.easv.mohammadabd.itunes.GUI;
 
 import dk.easv.mohammadabd.itunes.BE.Playlist;
@@ -223,7 +224,7 @@ public class UIController {
 
     public void onNewSongWindow() {
         try {
-            refreshTableView();
+
             // Load the FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/mohammadabd/itunes/GUI/newSongWindow.fxml"));
             Scene scene = new Scene(loader.load());
@@ -241,5 +242,3 @@ public class UIController {
 
 
 }
-
-

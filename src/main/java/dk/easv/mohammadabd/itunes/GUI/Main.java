@@ -33,7 +33,7 @@ public class Main extends Application {
      * Helper method to fetch songs from the database and display them in the console.
      */
     private void fetchAndDisplaySongs() {
-        DBsong dbs = new DBsong();
+        //DBsong dbs = new DBsong();
 
         // Fetch all songs from the database
        // var songs = dbs.getAllSongs();
@@ -50,7 +50,7 @@ public class Main extends Application {
 
         //getting a song by artist name
        // dbs.getSongByArtist("Bad boys");
-        Song song = new Song(2, "eterna", "cancao", "mp3", 21500, "eterna-cancao-wav-12569.wav", "music is life", 4);
+       // Song song = new Song(2, "eterna", "cancao", "mp3", 21500, "eterna-cancao-wav-12569.wav", "music is life", 4);
 
 
         // add song to the table
@@ -58,7 +58,7 @@ public class Main extends Application {
 
 
         //update song by id
-        dbs.updateSong(song, 2);
+        //dbs.updateSong(song, 2);
 
         // delete a song from the table
        // dbs.deleteSong(1);
