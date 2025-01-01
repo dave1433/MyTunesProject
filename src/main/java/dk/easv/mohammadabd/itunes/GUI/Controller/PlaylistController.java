@@ -21,6 +21,7 @@ public class PlaylistController {
         } else {
             for (Playlist playlist : playlists) {
                 System.out.println(playlist);
+
             }
         }
     }
@@ -83,7 +84,7 @@ public class PlaylistController {
     // Add song to playlist
     public void addSongToPlaylist(int playlistId, Song song) {
         boolean success = playlistManager.addSongToPlaylist(playlistId, song);
-         playlistManager.getSongById(playlistId, song);
+         playlistManager.getSongById(playlistId);
         if (success) {
 
             System.out.println("Song '" + song.getTitle() + "' added to playlist " + playlistId);

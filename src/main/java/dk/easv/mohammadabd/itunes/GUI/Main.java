@@ -100,18 +100,18 @@ public class Main extends Application {
         // testing the media player
         // Add some songs to the SongManager
         SongManager songManager = new SongManager();
-        songManager.addSong(new Song(1, "eterna-cancao-wav-12569", "eterna", "romanitic", 21000, "eterna-cancao-wav-12569.wav", "new evning", 4));
-        songManager.addSong(new Song(2, "see-you-later", "jack pop", "pop", 14710, "see-you-later-203103.mp3", "new morning", 1));
+        //songManager.addSong(new Song(1, "eterna-cancao-wav-12569", "eterna", "romanitic", 21000, "eterna-cancao-wav-12569.wav", "new evning", 4));
+        //songManager.addSong(new Song(2, "see-you-later", "jack pop", "pop", 14710, "see-you-later-203103.mp3", "new morning", 1));
 
         // Create a Player instance with the songs from SongManager
-        Player player = new Player(songManager.getSongs());
-        System.out.println(songManager.getSongs());
+       // Player player = new Player(songManager.getAllSongs());
+        System.out.println(songManager.getAllPlaylists());
 
         // Play the first song
-        player.playSong();
+        //player.playSong();
 
         // Skip forward 15 seconds
-        player.skipForward();
+        //player.skipForward();
 
         // Skip backward 15 seconds
        // player.skipBackward();

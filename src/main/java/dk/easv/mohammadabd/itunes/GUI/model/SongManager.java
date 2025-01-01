@@ -1,14 +1,17 @@
 package dk.easv.mohammadabd.itunes.GUI.model;
 
+import dk.easv.mohammadabd.itunes.BE.Playlist;
 import dk.easv.mohammadabd.itunes.BE.Song;
+import dk.easv.mohammadabd.itunes.BLL.PlaylistManager;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 public class SongManager {
     private final List<Song> songs;
-
+     PlaylistManager playlistManager = new PlaylistManager();
     public SongManager() {
         this.songs = new ArrayList<>();
     }
@@ -33,8 +36,12 @@ public class SongManager {
                 .collect(Collectors.toList());
     }
 
-    public  List<Song> getSongs() {
-        return new ArrayList<>(songs);
+    public  List<Song> getAllSongs() {
+        return playlistManager.getAllSongs();
+    }
+
+    public List<Playlist> getAllPlaylists() {
+        return playlistManager.getAllPlaylists();
     }
 
     public Song getSongByIndex(int index) {
@@ -44,4 +51,11 @@ public class SongManager {
             return null;
         }
     }
+
+    public List<Song> getSongByPlayListId(int playlistId) {
+        return playlistManager.getSongById(playlistId);
+    }
+
+
+
 }
