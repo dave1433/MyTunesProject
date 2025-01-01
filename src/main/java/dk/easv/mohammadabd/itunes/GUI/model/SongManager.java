@@ -3,6 +3,7 @@ package dk.easv.mohammadabd.itunes.GUI.model;
 import dk.easv.mohammadabd.itunes.BE.Playlist;
 import dk.easv.mohammadabd.itunes.BE.Song;
 import dk.easv.mohammadabd.itunes.BLL.PlaylistManager;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,16 @@ public class SongManager {
             System.out.println("Song removed: " + song.getTitle());
         } else {
             System.out.println("Song not found: " + song.getTitle());
+        }
+    }
+
+    public void removeAllSongs() {
+        // Check if the List is not null
+        if (songs != null) {
+            songs.clear();  // Removes all songs from the list
+            System.out.println("All songs have been removed.");
+        } else {
+            System.out.println("The list of songs is null.");
         }
     }
 
