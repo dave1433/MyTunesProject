@@ -65,7 +65,7 @@
         <contextMenu>
             <ContextMenu>
                 <items>
-                    <MenuItem mnemonicParsing="false" text="Remove from Playlist" />
+                    <MenuItem mnemonicParsing="false" text="Remove from Playlist" onAction="#RemoveFromPlayList" />
                 </items>
             </ContextMenu>
         </contextMenu>

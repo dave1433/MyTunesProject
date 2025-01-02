@@ -16,8 +16,8 @@
         <Label layoutX="149.0" layoutY="354.0" text="File:" />
         <TextField fx:id="songTimeField" layoutX="210.0" layoutY="242.0" prefHeight="26.0" prefWidth="221.0" style="-fx-background-color: #E5DFF6;" />
         <TextField fx:id="songFilePathField" layoutX="206.0" layoutY="349.0" prefHeight="26.0" prefWidth="221.0" style="-fx-background-color: #E5DFF6;" />
-        <Button fx:id="chooseSong" layoutX="437.0" layoutY="348.0" mnemonicParsing="false" style="-fx-background-color: #E5DFF6;" text="Choose" />
-        <Button fx:id="addSongBtn" layoutX="498.0" layoutY="349.0" mnemonicParsing="false" onAction="#onAddSong" text="Add" />
+        <Button fx:id="chooseSong" layoutX="437.0" layoutY="348.0" mnemonicParsing="false" style="-fx-background-color: #E5DFF6;" text="Choose" onAction="#onChooseSong"/>
+        <Button fx:id="addSongBtn" layoutX="498.0" layoutY="349.0" mnemonicParsing="false" onAction="#onAddSong" text="Add"  />
       <TextField fx:id="songGenreField" layoutX="207.0" layoutY="193.0" prefHeight="26.0" prefWidth="221.0" style="-fx-background-color: #E5DFF6;" />
       <Label layoutX="140.0" layoutY="154.0" text="Album" />
       <TextField fx:id="songAlbumField" layoutX="207.0" layoutY="150.0" prefHeight="26.0" prefWidth="221.0" style="-fx-background-color: #E5DFF6;" />

@@ -12,6 +12,7 @@ import javafx.animation.Timeline;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -509,5 +510,11 @@ public class UIController {
     }
 
     public void onSliderMousePressed(MouseEvent mouseEvent) {
+    }
+
+    public void RemoveFromPlayList() {
+        playlistController.deletePlaylist( songsInPlaylistTableView.getSelectionModel().getSelectedItem().getPlaylist_id());
+        songsInPlaylistObservable.setAll(songsObservable);
+
     }
 }
