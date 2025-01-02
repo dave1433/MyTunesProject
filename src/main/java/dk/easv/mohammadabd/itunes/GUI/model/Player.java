@@ -10,10 +10,12 @@ public class Player {
     private List<Song> songs;
     private int currentSongIndex;
     private MediaPlayer mediaPlayer;
+    private boolean isPaused; // Added to track if the song is paused
 
     public Player(List<Song> songs) {
         this.songs = songs;
         this.currentSongIndex = 0;
+        this.isPaused = false; // Initialize paused state
     }
 
     // Play the current song
@@ -44,7 +46,7 @@ public class Player {
         }
 
         try {
-            // Stop the current song if it's playing and create a new MediaPlayer
+            // Stop and dispose of the current song if playing, and create a new MediaPlayer
             if (mediaPlayer != null) {
                 mediaPlayer.stop();
                 mediaPlayer.dispose();  // Properly dispose of the old media player
@@ -52,6 +54,7 @@ public class Player {
 
             Media media = new Media(resource.toString());
             mediaPlayer = new MediaPlayer(media);
+            isPaused = false; // Reset paused state
 
             // Set the listener for when the song ends
             mediaPlayer.setOnEndOfMedia(() -> {
@@ -69,7 +72,6 @@ public class Player {
 
             // Start the song playback
             mediaPlayer.play();
-            System.out.println("Song is playing...");
         } catch (Exception e) {
             System.out.println("Error playing song: " + e.getMessage());
             e.printStackTrace();  // Provide more detailed error output
@@ -81,13 +83,30 @@ public class Player {
         return mediaPlayer != null && mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING;
     }
 
+    // Checks if the song is paused
+    public boolean isPaused() {
+        return isPaused;
+    }
+
     // Pause the current song
     public void pause() {
         if (mediaPlayer != null && mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
             mediaPlayer.pause();
+            isPaused = true; // Update paused state
             System.out.println("Song is paused.");
         } else {
             System.out.println("No song is currently playing or already paused.");
+        }
+    }
+
+    // Resume playback from the paused position
+    public void resume() {
+        if (mediaPlayer != null && isPaused) {
+            mediaPlayer.play();
+            isPaused = false; // Update paused state
+            System.out.println("Resuming playback...");
+        } else {
+            System.out.println("No paused song to resume.");
         }
     }
 
