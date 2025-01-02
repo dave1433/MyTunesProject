@@ -1,15 +1,12 @@
-
-package dk.easv.mohammadabd.itunes.GUI;
+package dk.easv.mohammadabd.itunes.GUI.Controller;
 
 import dk.easv.mohammadabd.itunes.BE.Playlist;
 import dk.easv.mohammadabd.itunes.BE.Song;
 import dk.easv.mohammadabd.itunes.GUI.model.Player;
 import dk.easv.mohammadabd.itunes.GUI.model.SongManager;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -87,7 +84,6 @@ public class UIController {
         playlistSongsColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTotalSongs()+""));
         playlistDurationColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTotalDuration()+""));
 
-        songManager = new SongManager();  // Initialize songManager
         searchField.setOnKeyReleased(event -> onSearchFieldUpdated());
 
         // Initialize observable list for TableViews
@@ -105,69 +101,23 @@ public class UIController {
     }
 
 
+    // Song Management
+    public void onAddSongClicked() {
+        try {
 
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/mohammadabd/itunes/GUI/newSongWindow.fxml"));
+            Scene scene = new Scene(loader.load());
 
-    private void handlePlaylistSelection(MouseEvent event) {
-        Playlist selectedPlaylist = playlistTableView.getSelectionModel().getSelectedItem();
-        if (selectedPlaylist != null) {
-            playlistSongColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
-            playlistSongDurationColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDuration()+""));
+            // Create a new stage (window)
+            Stage newStage = new Stage();
+            newStage.setTitle("New Song Window");
+            newStage.setScene(scene);
+            newStage.setResizable(false); // Disable resizing
+            newStage.show();  // Show the new window
 
-            songsInPlaylistObservable = FXCollections.observableArrayList(songManager.getSongByPlayListId(selectedPlaylist.getId()));
-            songsInPlaylistTableView.setItems(songsInPlaylistObservable);
-        }
-    }
-    @FXML
-    private void onRemoveSongClicked() {
-        Song selectedSong = songTableView.getSelectionModel().getSelectedItem();
-        if (selectedSong != null) {
-            songManager.removeSong(selectedSong);
-            refreshTableView();
-        }
-    }
-
-    @FXML
-    private void onCreatePlaylistClicked() {
-
-    }
-
-    @FXML
-    private void onDeletePlaylistClicked() {
-
-    }
-
-    @FXML
-    private void onSearchFieldUpdated() {
-        String query = searchField.getText();
-        if (query.isEmpty()) {
-            songsObservable.setAll(songManager.getAllSongs());  // Show all songs if the search field is empty
-            System.out.println("Retrieve all songs to Songs ListView");
-
-        } else {
-            songsObservable.setAll(songManager.filterSongs(query));  // Filter songs based on the query
-            System.out.println("Searching for " + query);
-
-        }
-    }
-
-    private void refreshTableView() {
-        songManager.removeAllSongs();
-
-        songsObservable.setAll(songManager.getAllSongs());
-        // add the songs to media player to be ready to play
-        songsObservable.forEach(song -> songManager.addSong(song));
-    }
-
-    @FXML
-    private void onResumePauseButtonClicked() {
-
-        if (player.isPlaying()) {
-            player.pause(); // Pause the song
-            resumePauseButton.setText("⏯"); // Change to resume icon
-
-        } else {
-            player.playSong(); // Resume the song
-            resumePauseButton.setText("⏸"); // Change to pause icon
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -181,6 +131,36 @@ public class UIController {
             Stage newStage = new Stage();
             newStage.setTitle("Edit Song Window");
             newStage.setScene(scene);
+            newStage.setResizable(false); // Disable resizing
+            newStage.show();  // Show the new window
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onRemoveSongClicked() {
+        Song selectedSong = songTableView.getSelectionModel().getSelectedItem();
+        if (selectedSong != null) {
+            songManager.removeSong(selectedSong);
+            refreshTableView();
+        }
+    }
+
+
+    // Playlist Management
+    public void onCreatePlaylistClicked() {
+        try {
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/mohammadabd/itunes/GUI/newPlaylistWindow.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            // Create a new stage (window)
+            Stage newStage = new Stage();
+            newStage.setTitle("New PlayList Window");
+            newStage.setScene(scene);
+            newStage.setResizable(false); // Disable resizing
             newStage.show();  // Show the new window
 
         } catch (IOException e) {
@@ -198,6 +178,7 @@ public class UIController {
             Stage newStage = new Stage();
             newStage.setTitle("Edit PlayList Window");
             newStage.setScene(scene);
+            newStage.setResizable(false); // Disable resizing
             newStage.show();  // Show the new window
 
         } catch (IOException e) {
@@ -205,40 +186,100 @@ public class UIController {
         }
     }
 
-    public void onCreatePlaylistWindow() {
-        try {
-            // Load the FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/mohammadabd/itunes/GUI/newPlaylistWindow.fxml"));
-            Scene scene = new Scene(loader.load());
+    @FXML
+    private void onDeletePlaylistClicked() {
 
-            // Create a new stage (window)
-            Stage newStage = new Stage();
-            newStage.setTitle("New PlayList Window");
-            newStage.setScene(scene);
-            newStage.show();  // Show the new window
+    }
 
-        } catch (IOException e) {
-            e.printStackTrace();
+    // Handlers
+    private void handlePlaylistSelection(MouseEvent event) {
+        Playlist selectedPlaylist = playlistTableView.getSelectionModel().getSelectedItem();
+        if (selectedPlaylist != null) {
+            playlistSongColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
+            playlistSongDurationColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDuration()+""));
+
+            songsInPlaylistObservable = FXCollections.observableArrayList(songManager.getSongByPlayListId(selectedPlaylist.getId()));
+            songsInPlaylistTableView.setItems(songsInPlaylistObservable);
         }
     }
 
-    public void onNewSongWindow() {
-        try {
+    private void handleSongSelection() {
+        Song selectedSong = songTableView.getSelectionModel().getSelectedItem();
+        if (selectedSong != null) {
+            songManager.removeAllSongs();
+            songManager.addSong(selectedSong);
+            player.playSong();
 
-            // Load the FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/mohammadabd/itunes/GUI/newSongWindow.fxml"));
-            Scene scene = new Scene(loader.load());
-
-            // Create a new stage (window)
-            Stage newStage = new Stage();
-            newStage.setTitle("New Song Window");
-            newStage.setScene(scene);
-            newStage.show();  // Show the new window
-
-        } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Selected song " + selectedSong.getTitle());
         }
     }
 
 
+    // Search
+    @FXML
+    private void onSearchFieldUpdated() {
+        String query = searchField.getText();
+        if (query.isEmpty()) {
+            songsObservable.setAll(songManager.getAllSongs());  // Show all songs if the search field is empty
+            System.out.println("Retrieve all songs to Songs ListView");
+
+        } else {
+            songsObservable.setAll(songManager.filterSongs(query));  // Filter songs based on the query
+            System.out.println("Searching for " + query);
+
+        }
+    }
+
+    // Media Controls
+    @FXML
+    private void onResumePauseButtonClicked() {
+        Song selectedSong = songTableView.getSelectionModel().getSelectedItem();
+        if (!player.isPlaying()) {
+            if (selectedSong != null) {
+//                handleSongSelection();
+
+                if (player.isPaused()) {
+                    player.resume(); // Resume from the paused position
+                } else {
+                    player.playSong();
+                }
+                resumePauseButton.setText("⏸"); // Change to pause icon
+            } else {
+                System.out.println("No song selected to play.");
+            }
+        } else {
+            player.pause(); // Pause the song
+            resumePauseButton.setText("⏯"); // Change to resume icon
+        }
+    }
+
+
+    @FXML
+    private void onNextButtonClicked() {
+        player.playNextSong();
+    }
+
+    @FXML
+    private void onPreviousButtonClicked() {
+        player.playPreviousSong();
+    }
+
+    @FXML
+    private void onSkipBackwardButtonClicked() {
+        player.skipBackward();
+    }
+
+    @FXML
+    private void onSkipForwardButtonClicked() {
+        player.skipForward();
+    }
+
+    // Utility
+    private void refreshTableView() {
+        songManager.removeAllSongs();
+
+        songsObservable.setAll(songManager.getAllSongs());
+        // add the songs to media player to be ready to play
+        songsObservable.forEach(song -> songManager.addSong(song));
+    }
 }

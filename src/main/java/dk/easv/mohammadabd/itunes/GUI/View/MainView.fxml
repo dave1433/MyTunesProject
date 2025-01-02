@@ -9,22 +9,23 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="814.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mohammadabd.itunes.GUI.UIController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mohammadabd.itunes.GUI.Controller.UIController">
 
     <!-- Songs List -->
-    <TableView fx:id="songTableView" layoutX="10.0" layoutY="31.0" prefHeight="375.0" prefWidth="525.0">
+    <TableView fx:id="songTableView" layoutX="10.0" layoutY="31.0" prefHeight="375.0" prefWidth="584.0">
         <columns>
-            <TableColumn fx:id="titleColumn" prefWidth="120.0" text="Title" />
-            <TableColumn fx:id="artistColumn" prefWidth="100.0" text="Artist" />
-            <TableColumn fx:id="genreColumn" prefWidth="80.0" text="Genre" />
-            <TableColumn fx:id="albumColumn" prefWidth="100.0" text="Album" />
-            <TableColumn fx:id="durationColumn" prefWidth="120.0" text="Duration" />
+            <TableColumn fx:id="titleColumn" prefWidth="176.80001258850098" resizable="false" text="Title" />
+            <TableColumn fx:id="artistColumn" prefWidth="120.79998779296875" resizable="false" text="Artist" />
+            <TableColumn fx:id="genreColumn" prefWidth="51.20001220703125" resizable="false" text="Genre" />
+            <TableColumn fx:id="albumColumn" prefWidth="156.80001831054688" resizable="false" text="Album" />
+            <TableColumn fx:id="durationColumn" prefWidth="60.8" resizable="false" text="Duration" />
         </columns>
         <contextMenu>
             <ContextMenu>
                 <items>
-                    <MenuItem mnemonicParsing="false" onAction="#onNewSongWindow" text="Add Song" />
+                    <MenuItem mnemonicParsing="false" onAction="#onAddSongClicked" text="Add Song" />
                     <MenuItem mnemonicParsing="false" onAction="#onEditSongClicked" text="Edit Song" />
                     <MenuItem mnemonicParsing="false" onAction="#onRemoveSongClicked" text="Delete Song" />
                 </items>
@@ -33,16 +34,16 @@
     </TableView>
 
     <!-- Playlist Table -->
-    <TableView fx:id="playlistTableView" layoutX="535.0" layoutY="31.0" prefHeight="185.0" prefWidth="279.0">
+    <TableView fx:id="playlistTableView" layoutX="595.0" layoutY="31.0" prefHeight="185.0" prefWidth="219.0">
         <columns>
-            <TableColumn fx:id="playlistNameColumn" prefWidth="100.0" text="Name" />
-            <TableColumn fx:id="playlistSongsColumn" prefWidth="70.0" text="Songs" />
-            <TableColumn fx:id="playlistDurationColumn" prefWidth="100.0" text="Duration" />
+            <TableColumn fx:id="playlistNameColumn" prefWidth="113.599853515625" resizable="false" text="Name" />
+            <TableColumn fx:id="playlistSongsColumn" prefWidth="39.2000732421875" resizable="false" text="Songs" />
+            <TableColumn fx:id="playlistDurationColumn" prefWidth="67.2000732421875" resizable="false" text="Duration" />
         </columns>
         <contextMenu>
             <ContextMenu>
                 <items>
-                    <MenuItem mnemonicParsing="false" onAction="#onCreatePlaylistWindow" text="New Playlist" />
+                    <MenuItem mnemonicParsing="false" onAction="#onCreatePlaylistClicked" text="New Playlist" />
                     <MenuItem mnemonicParsing="false" onAction="#onEditPlaylistClicked" text="Edit Playlist" />
                     <MenuItem mnemonicParsing="false" onAction="#onDeletePlaylistClicked" text="Delete Playlist" />
                 </items>
@@ -51,10 +52,10 @@
     </TableView>
 
     <!-- Songs in Playlist Table -->
-    <TableView fx:id="songsInPlaylistTableView" layoutX="535.0" layoutY="217.0" prefHeight="278.0" prefWidth="279.0">
+    <TableView fx:id="songsInPlaylistTableView" layoutX="595.0" layoutY="217.0" prefHeight="278.0" prefWidth="219.0">
         <columns>
-            <TableColumn fx:id="playlistSongColumn" prefWidth="150.0" text="Song" />
-            <TableColumn fx:id="playlistSongDurationColumn" prefWidth="70.0" text="Duration" />
+            <TableColumn fx:id="playlistSongColumn" prefWidth="151.20001220703125" resizable="false" text="Song" />
+            <TableColumn fx:id="playlistSongDurationColumn" prefWidth="70.39996337890625" resizable="false" text="Duration" />
         </columns>
         <contextMenu>
             <ContextMenu>
@@ -66,14 +67,17 @@
     </TableView>
 
     <!-- Search Field -->
-    <TextField fx:id="searchField" layoutX="535.0" layoutY="5.0" onInputMethodTextChanged="#onSearchFieldUpdated" prefHeight="25.0" prefWidth="279.0" promptText="Search for song" />
+    <TextField fx:id="searchField" layoutX="595.0" layoutY="5.0" onInputMethodTextChanged="#onSearchFieldUpdated" prefHeight="25.0" prefWidth="219.0" promptText="Search for song" />
 
     <!-- Media Control Buttons -->
-    <Slider fx:id="progressSlider" layoutX="10.0" layoutY="421.0" prefHeight="14.0" prefWidth="525.0" />
-    <Button layoutX="338.0" layoutY="450.0" mnemonicParsing="false" text="▶" />
-    <Button layoutX="214.0" layoutY="450.0" mnemonicParsing="false" text="⏮" />
-    <Button layoutX="373.0" layoutY="450.0" mnemonicParsing="false" text="⏭" />
-    <Button layoutX="171.0" layoutY="450.0" mnemonicParsing="false" text="⏪" />
-    <Button layoutX="259.0" layoutY="443.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="63.0" text="⏸" />
-    <Label layoutX="450.0" layoutY="454.0" text="11:14 / 12:31" />
+    <Slider fx:id="progressSlider" layoutX="10.0" layoutY="421.0" prefWidth="575.0" />
+    <Button layoutX="338.0" layoutY="450.0" mnemonicParsing="false" onAction="#onSkipForwardButtonClicked" text="⏩" textAlignment="JUSTIFY" />
+    <Button layoutX="171.0" layoutY="450.0" mnemonicParsing="false" onAction="#onPreviousButtonClicked" text="⏮" textAlignment="JUSTIFY" />
+    <Button layoutX="373.0" layoutY="450.0" mnemonicParsing="false" onAction="#onNextButtonClicked" text="⏭" textAlignment="JUSTIFY" />
+    <Button layoutX="214.0" layoutY="450.0" mnemonicParsing="false" onAction="#onSkipBackwardButtonClicked" text="⏪" textAlignment="JUSTIFY" />
+    <Button fx:id="resumePauseButton" layoutX="259.0" layoutY="443.0" onAction="#onResumePauseButtonClicked" prefHeight="40.0" prefWidth="63.0" text="⏯" textAlignment="JUSTIFY">
+        <font>
+            <Font size="18.0" />
+        </font></Button>
+    <Label layoutX="513.0" layoutY="454.0" text="11:14 / 12:31" />
 </AnchorPane>

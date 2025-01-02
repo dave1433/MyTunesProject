@@ -1,8 +1,7 @@
-package dk.easv.mohammadabd.itunes.GUI;
+package dk.easv.mohammadabd.itunes.GUI.Controller;
 
 import dk.easv.mohammadabd.itunes.BE.Song;
 import dk.easv.mohammadabd.itunes.DAL.DBsong;
-import dk.easv.mohammadabd.itunes.GUI.model.SongManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
