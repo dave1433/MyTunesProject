@@ -24,13 +24,15 @@ public class dbConnector {
     }
 
     // Method to get a database connection
-    public Connection getConnection() {
+    public Connection getConnection() throws SQLException {
+
         try {
             // Establish connection to database
             Connection connection = ds.getConnection();
             if (connection != null && !connection.isClosed()) {
                 System.out.println("Connection established successfully to the database.");
                 return connection;
+
             } else {
                 throw new SQLException("Failed to establish a database connection.");
             }
@@ -42,6 +44,14 @@ public class dbConnector {
             e.printStackTrace();
             throw new RuntimeException("Unable to establish a connection to the database.", e);
         }
+
+
+
+
+
+
     }
+
+
 
 }

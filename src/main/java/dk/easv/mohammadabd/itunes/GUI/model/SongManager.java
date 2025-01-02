@@ -1,14 +1,18 @@
 package dk.easv.mohammadabd.itunes.GUI.model;
 
+import dk.easv.mohammadabd.itunes.BE.Playlist;
 import dk.easv.mohammadabd.itunes.BE.Song;
+import dk.easv.mohammadabd.itunes.BLL.PlaylistManager;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 public class SongManager {
     private final List<Song> songs;
-
+     PlaylistManager playlistManager = new PlaylistManager();
     public SongManager() {
         this.songs = new ArrayList<>();
     }
@@ -19,8 +23,21 @@ public class SongManager {
     }
 
     public void removeSong(Song song) {
-        songs.remove(song);
-        System.out.println("Song removed: " + song.getTitle());
+        if (songs.remove(song)) {
+            System.out.println("Song removed: " + song.getTitle());
+        } else {
+            System.out.println("Song not found: " + song.getTitle());
+        }
+    }
+
+    public void removeAllSongs() {
+        // Check if the List is not null
+        if (songs != null) {
+            songs.clear();  // Removes all songs from the list
+            System.out.println("All songs have been removed.");
+        } else {
+            System.out.println("The list of songs is null.");
+        }
     }
 
     public List<Song> filterSongs(String query) {
@@ -30,8 +47,26 @@ public class SongManager {
                 .collect(Collectors.toList());
     }
 
-    public List<Song> getSongs() {
-        return new ArrayList<>(songs);
+    public  List<Song> getAllSongs() {
+        return playlistManager.getAllSongs();
     }
-}
 
+    public List<Playlist> getAllPlaylists() {
+        return playlistManager.getAllPlaylists();
+    }
+
+    public Song getSongByIndex(int index) {
+        if (index >= 0 && index < songs.size()) {
+            return songs.get(index);
+        } else {
+            return null;
+        }
+    }
+
+    public List<Song> getSongByPlayListId(int playlistId) {
+        return playlistManager.getSongById(playlistId);
+    }
+
+
+
+}
