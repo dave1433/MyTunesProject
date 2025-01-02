@@ -5,6 +5,18 @@ import dk.easv.mohammadabd.itunes.DAL.DBsong;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioSystem;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import org.apache.tika.Tika;
+import org.apache.tika.metadata.Metadata;
 
 public class AddSongController {
 
@@ -35,18 +47,27 @@ public class AddSongController {
     @FXML
     private TextField playlist_idField;
 
-    private final DBsong dbs = new DBsong(); // Reference to the main controller
-
-
+    private final DBsong dbs = new DBsong(); // Reference to the database handler
+    private File selectedFile; // To hold the chosen file
 
     /**
      * Event handler for the "Choose" button.
      */
     @FXML
     private void onChooseSong() {
-        // Logic to handle the song file selection (e.g., opening a FileChooser dialog)
-        System.out.println("Choose Song button clicked.");
-        // Add a FileChooser here if needed.
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select a Music File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Audio Files", "*.mp3", "*.wav")
+        );
+
+        Stage stage = (Stage) chooseSong.getScene().getWindow();
+        selectedFile = fileChooser.showOpenDialog(stage);
+
+        if (selectedFile != null) {
+            songFilePathField.setText(selectedFile.getName()); // Set only the file name in the text field
+
+        }
     }
 
     /**
@@ -54,33 +75,51 @@ public class AddSongController {
      */
     @FXML
     private void onAddSong() {
-        // Collect data from the input fields
-        String title = songTitleField.getText();
-        String artist = songArtistField.getText();
-        String album = songAlbumField.getText();
-        String genre = songGenreField.getText();
-        long time = Long.parseLong(songTimeField.getText());
-        String filePath = songFilePathField.getText();
-        int playlist_id = Integer.parseInt(playlist_idField.getText());
+        try {
+            // Collect data from the input fields
+            String title = songTitleField.getText();
+            String artist = songArtistField.getText();
+            String album = songAlbumField.getText();
+            String genre = songGenreField.getText();
+            String fileName = songFilePathField.getText();
+            String durationText = songTimeField.getText();
+            int playlistId = Integer.parseInt(playlist_idField.getText());
 
-        // Validate inputs
-        if (title.isEmpty() || artist.isEmpty() || filePath.isEmpty()) {
-            System.out.println("Please fill in all required fields!");
-            return;
-        }else {
-            dbs.addSong(new Song(1,title, artist,  genre,  time, filePath , album, playlist_id ));
+            // Validate inputs
+            if (title.isEmpty() || artist.isEmpty() || fileName.isEmpty() || durationText.isEmpty()) {
+                System.out.println("Please fill in all required fields!");
+                return;
+            }
+
+            long duration = Long.parseLong(durationText);
+
+            // Validate file
+            if (selectedFile == null || (!fileName.endsWith(".mp3") && !fileName.endsWith(".wav"))) {
+                System.out.println("Please select a valid music file (.mp3, .wav).");
+                return;
+            }
+            dbs.addSong(new Song(1, title, artist, genre, duration,  fileName, album, playlistId));
+
+            System.out.println("Song added successfully!");
+
+            // Copy the file to the resources folder
+            fileName = selectedFile.getName();
+            Path targetPath = Path.of("src/main/resources/music/", fileName);
+            Files.createDirectories(targetPath.getParent());
+            Files.copy(selectedFile.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("File should be copied successfully!");
+            // Add the song to the database
+
+            // Optionally, clear the fields after adding the song
+            clearFields();
+        } catch (IOException e) {
+            System.out.println("Error while saving the song file: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input in numeric fields. Please check your inputs.");
         }
-
-
-
-
-        // Optionally, clear the fields after adding the song
-        clearFields();
     }
 
-    /**
-     * Clears all input fields.
-     */
+
     private void clearFields() {
         songTitleField.clear();
         songArtistField.clear();
@@ -88,5 +127,7 @@ public class AddSongController {
         songGenreField.clear();
         songTimeField.clear();
         songFilePathField.clear();
+        playlist_idField.clear();
+        selectedFile = null;
     }
 }
