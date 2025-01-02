@@ -17,6 +17,25 @@ public class SongManager {
         this.songs = new ArrayList<>();
     }
 
+    public List<Song> getMediaPlayerSongs() {
+        return this.songs;
+    }
+
+    public void updateSongOrder(int fromIndex, int toIndex) {
+        if (fromIndex < 0 || toIndex < 0 || fromIndex >= songs.size() || toIndex >= songs.size()) {
+            return; // Invalid indices
+        }
+
+        Song songToMove = songs.remove(fromIndex); // Remove the song from the original position
+        songs.add(toIndex, songToMove); // Add it to the new position
+    }
+
+    public void updatePlaylist(ObservableList<Song> newPlaylist) {
+        this.songs.clear();
+        this.songs.addAll(newPlaylist);
+    }
+
+
     public void addSong(Song song) {
         songs.add(song);
         System.out.println("Song added: " + song.getTitle());
