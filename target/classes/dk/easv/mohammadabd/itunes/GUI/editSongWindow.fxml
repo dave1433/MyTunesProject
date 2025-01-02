@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1"
-            xmlns:fx="http://javafx.com/fxml/1">
+            xmlns:fx="http://javafx.com/fxml/1"  fx:controller="dk.easv.mohammadabd.itunes.GUI.Controller.SongController">
     <AnchorPane prefHeight="400.0" prefWidth="601.0" style="-fx-background-color: #8897b3;">
         <Label layoutX="142.0" layoutY="122.0" text="Title:"/>
         <TextField fx:id="songTitleField" layoutX="203.0" layoutY="117.0" prefHeight="26.0" prefWidth="221.0"
@@ -25,8 +25,8 @@
         <Button fx:id="chooseSong" layoutX="434.0" layoutY="282.0" mnemonicParsing="false"
                 style="-fx-background-color: #E5DFF6;" text="Choose"/>
         <ChoiceBox fx:id="songGenreFieldChoiceBox" layoutX="203.0" layoutY="200.0" prefHeight="26.0" prefWidth="221.0"
-                   style="-fx-background-color: #E5DFF6;"/>
+                   style="-fx-background-color: #E5DFF6;" onAction="#onChooseSong2"/>
         <Button fx:id="editSongBtn" layoutX="498.0" layoutY="349.0" mnemonicParsing="false"
-                text="Edit"/>
+                text="Edit" onAction="#onEditSong"/>
     </AnchorPane>
 </AnchorPane>

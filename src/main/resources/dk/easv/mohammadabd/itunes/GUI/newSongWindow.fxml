@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mohammadabd.itunes.GUI.Controller.AddSongController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mohammadabd.itunes.GUI.Controller.SongController">
     <AnchorPane prefHeight="400.0" prefWidth="601.0" style="-fx-background-color: #8897b3;">
         <Label layoutX="149.0" layoutY="70.0" text="Title:" />
         <TextField fx:id="songTitleField" layoutX="210.0" layoutY="65.0" prefHeight="26.0" prefWidth="221.0" style="-fx-background-color: #E5DFF6;" />
