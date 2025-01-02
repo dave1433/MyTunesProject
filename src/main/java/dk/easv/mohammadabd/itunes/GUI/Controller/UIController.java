@@ -115,21 +115,42 @@ public class UIController {
     private boolean wasPlayingBeforeSliderDrag = false;
 
     @FXML
+    private void onSliderMousePressed(MouseEvent event) {
+        if (player.isPlaying()) {
+            wasPlayingBeforeSliderDrag = true;
+            player.pause(); // Pause playback while the slider is being dragged
+        } else {
+            wasPlayingBeforeSliderDrag = false;
+        }
+
+        System.out.println("Mouse pressed on slider. Was playing: " + wasPlayingBeforeSliderDrag);
+    }
+
+
+    @FXML
     private void onSliderMouseReleased(MouseEvent event) {
-        double seekTime = progressSlider.getValue();  // Get the new time from the slider
+        double seekPercentage = progressSlider.getValue();
         double totalDuration = player.getCurrentSongDuration();
 
-        // Map slider position to the actual song time
-        double newSeekTime = (seekTime / 100) * totalDuration;
+        System.out.println("Slider value: " + seekPercentage);
+        System.out.println("Total duration: " + totalDuration);
 
-        player.seekTo(newSeekTime); // Seek to the position without pausing
+        if (totalDuration > 0) {
+            // Calculate the seek time in milliseconds or seconds depending on your system
+            double seekTime = (seekPercentage / 100) * totalDuration;
+            System.out.println("Calculated seek time: " + seekTime);
 
-        // Resume playing the song if it was playing before the drag
-        if (wasPlayingBeforeSliderDrag) {
-            player.playSong();  // Resume the song
-            wasPlayingBeforeSliderDrag = false; // Reset the state
+            // Seek to the calculated position
+            player.seekTo(seekTime);
+
+            // Resume playback if it was playing before dragging the slider
+            if (wasPlayingBeforeSliderDrag) {
+                player.resume(); // Resume playback without reinitializing
+                wasPlayingBeforeSliderDrag = false;
+            }
         }
     }
+
     @FXML
     // When drag is detected (dragging has started)
     private void onSliderDragDetected(DragEvent event) {
@@ -147,11 +168,13 @@ public class UIController {
     public void updateProgressSlider(double currentTimeInSeconds) {
         double totalDuration = player.getCurrentSongDuration();
 
-        // Update the slider value based on the current playback time (map it to a percentage)
-        double percentage = (currentTimeInSeconds / totalDuration) * 100;
+        // Ensure totalDuration > 0 to prevent divide-by-zero errors
+        if (totalDuration > 0) {
+            double percentage = (currentTimeInSeconds / totalDuration) * 100;
 
-        if (!progressSlider.isValueChanging()) {
-            progressSlider.setValue(percentage);  // Update the slider with the current playback time
+            if (!progressSlider.isValueChanging()) {
+                progressSlider.setValue(percentage);
+            }
         }
     }
     // Song Management

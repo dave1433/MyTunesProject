@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mohammadabd.itunes.GUI.Controller.UIController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.mohammadabd.itunes.GUI.Controller.UIController">
 
     <!-- Songs List -->
     <TableView fx:id="songTableView" layoutX="10.0" layoutY="31.0" prefHeight="375.0" prefWidth="584.0">
@@ -70,7 +70,7 @@
     <TextField fx:id="searchField" layoutX="595.0" layoutY="5.0" onInputMethodTextChanged="#onSearchFieldUpdated" prefHeight="25.0" prefWidth="219.0" promptText="Search for song" />
 
     <!-- Media Control Buttons -->
-    <Slider fx:id="progressSlider" layoutX="10.0" layoutY="421.0" prefWidth="575.0" />
+    <Slider fx:id="progressSlider" layoutX="10.0" layoutY="421.0" onDragDone="#onSliderDragDone" onDragDropped="#onSliderDragDetected" onMousePressed="#onSliderMousePressed" onMouseReleased="#onSliderMouseReleased" prefWidth="575.0" />
     <Button layoutX="338.0" layoutY="450.0" mnemonicParsing="false" onAction="#onSkipForwardButtonClicked" text="⏩" textAlignment="JUSTIFY" />
     <Button layoutX="171.0" layoutY="450.0" mnemonicParsing="false" onAction="#onPreviousButtonClicked" text="⏮" textAlignment="JUSTIFY" />
     <Button layoutX="373.0" layoutY="450.0" mnemonicParsing="false" onAction="#onNextButtonClicked" text="⏭" textAlignment="JUSTIFY" />

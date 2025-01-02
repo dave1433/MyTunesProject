@@ -56,6 +56,13 @@ public class Player {
             mediaPlayer = new MediaPlayer(media);
             isPaused = false; // Reset paused state
 
+            // Progress listener
+            mediaPlayer.currentTimeProperty().addListener((observable, oldValue, newValue) -> {
+                if (progressListener != null) {
+                    progressListener.onProgress(newValue.toSeconds());
+                }
+            });
+
             // Set the listener for when the song ends
             mediaPlayer.setOnEndOfMedia(() -> {
                 System.out.println("Song finished.");
@@ -132,8 +139,13 @@ public class Player {
     public void skipForward() {
         if (mediaPlayer != null) {
             double newPosition = mediaPlayer.getCurrentTime().toSeconds() + 15;
+            double maxDuration = getCurrentSongDuration();
+
+            // Ensure the position does not exceed the song duration
+            if (newPosition > maxDuration) newPosition = maxDuration;
+
             mediaPlayer.seek(Duration.seconds(newPosition));
-            System.out.println("Skipped forward. Current position: " + newPosition + " seconds.");
+            System.out.println("Skipped forward to: " + newPosition + " seconds.");
         }
     }
 
@@ -141,9 +153,12 @@ public class Player {
     public void skipBackward() {
         if (mediaPlayer != null) {
             double newPosition = mediaPlayer.getCurrentTime().toSeconds() - 15;
+
+            // Ensure the position is not negative
             if (newPosition < 0) newPosition = 0;
+
             mediaPlayer.seek(Duration.seconds(newPosition));
-            System.out.println("Skipped backward. Current position: " + newPosition + " seconds.");
+            System.out.println("Skipped backward to: " + newPosition + " seconds.");
         }
     }
 
@@ -181,7 +196,13 @@ public class Player {
 
     public void seekTo(double timeInSeconds) {
         if (mediaPlayer != null) {
-            mediaPlayer.seek(Duration.seconds(timeInSeconds));
+            double totalDuration = getCurrentSongDuration();
+            if (timeInSeconds >= 0 && timeInSeconds <= totalDuration) {
+                mediaPlayer.seek(Duration.seconds(timeInSeconds));
+                System.out.println("Seeked to: " + timeInSeconds + " seconds.");
+            } else {
+                System.out.println("Seek time out of range: " + timeInSeconds);
+            }
         }
     }
 
