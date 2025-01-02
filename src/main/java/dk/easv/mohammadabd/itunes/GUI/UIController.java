@@ -1,7 +1,9 @@
+
 package dk.easv.mohammadabd.itunes.GUI;
 
 import dk.easv.mohammadabd.itunes.BE.Playlist;
 import dk.easv.mohammadabd.itunes.BE.Song;
+import dk.easv.mohammadabd.itunes.GUI.model.Player;
 import dk.easv.mohammadabd.itunes.GUI.model.SongManager;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -23,6 +26,7 @@ public class UIController {
 
     // private final PlaylistManager playlistManager = new PlaylistManager();
     private SongManager songManager = new SongManager();
+    Player player = new Player(songManager.getAllSongs());
 
     @FXML
     private TableView<Song> songTableView;
@@ -47,6 +51,8 @@ public class UIController {
     @FXML
     private TableColumn<Song, String> playlistSongDurationColumn;
 
+    @FXML
+    private Button resumePauseButton;
 
     @FXML
     private TableColumn<Playlist, String> playlistNameColumn;
@@ -93,6 +99,9 @@ public class UIController {
 
         // listener for Playlist TableView selection
         playlistTableView.setOnMouseClicked(this::handlePlaylistSelection);
+
+        // add the songs to media player to be ready to play
+        songsObservable.forEach(song -> songManager.addSong(song));
     }
 
 
@@ -133,14 +142,33 @@ public class UIController {
         if (query.isEmpty()) {
             songsObservable.setAll(songManager.getAllSongs());  // Show all songs if the search field is empty
             System.out.println("Retrieve all songs to Songs ListView");
+
         } else {
             songsObservable.setAll(songManager.filterSongs(query));  // Filter songs based on the query
             System.out.println("Searching for " + query);
+
         }
     }
 
     private void refreshTableView() {
+        songManager.removeAllSongs();
+
         songsObservable.setAll(songManager.getAllSongs());
+        // add the songs to media player to be ready to play
+        songsObservable.forEach(song -> songManager.addSong(song));
+    }
+
+    @FXML
+    private void onResumePauseButtonClicked() {
+
+        if (player.isPlaying()) {
+            player.pause(); // Pause the song
+            resumePauseButton.setText("⏯"); // Change to resume icon
+
+        } else {
+            player.playSong(); // Resume the song
+            resumePauseButton.setText("⏸"); // Change to pause icon
+        }
     }
 
     public void onEditSongClicked() {
@@ -197,9 +225,6 @@ public class UIController {
     public void onNewSongWindow() {
         try {
 
-            Song newSong = new Song(1, "Smooth Criminal", "Mickel Jakson", "Pop", 8400, "path/to/file", "Moon", 5);
-            songManager.addSong(newSong);
-            refreshTableView();
             // Load the FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/mohammadabd/itunes/GUI/newSongWindow.fxml"));
             Scene scene = new Scene(loader.load());
@@ -215,8 +240,5 @@ public class UIController {
         }
     }
 
-    public void onAddSongClicked(ActionEvent actionEvent) {
-    }
+
 }
-
-

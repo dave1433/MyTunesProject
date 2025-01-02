@@ -74,6 +74,6 @@
     <Button layoutX="214.0" layoutY="450.0" mnemonicParsing="false" text="⏮" />
     <Button layoutX="373.0" layoutY="450.0" mnemonicParsing="false" text="⏭" />
     <Button layoutX="171.0" layoutY="450.0" mnemonicParsing="false" text="⏪" />
-    <Button layoutX="259.0" layoutY="443.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="63.0" text="⏸" />
+    <Button fx:id="resumePauseButton" layoutX="259.0" layoutY="443.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="63.0" text="⏯" onAction="#onResumePauseButtonClicked" />
     <Label layoutX="450.0" layoutY="454.0" text="11:14 / 12:31" />
 </AnchorPane>

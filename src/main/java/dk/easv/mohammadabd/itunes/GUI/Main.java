@@ -33,7 +33,7 @@ public class Main extends Application {
      * Helper method to fetch songs from the database and display them in the console.
      */
     private void fetchAndDisplaySongs() {
-      //  DBsong dbs = new DBsong();
+        //DBsong dbs = new DBsong();
 
         // Fetch all songs from the database
        // var songs = dbs.getAllSongs();
@@ -50,7 +50,7 @@ public class Main extends Application {
 
         //getting a song by artist name
        // dbs.getSongByArtist("Bad boys");
-       // Song song = new Song(1, "test", "test", "test", 14000, "./music/file.mp3", "test", 1);
+       // Song song = new Song(2, "eterna", "cancao", "mp3", 21500, "eterna-cancao-wav-12569.wav", "music is life", 4);
 
 
         // add song to the table
@@ -58,7 +58,7 @@ public class Main extends Application {
 
 
         //update song by id
-       // dbs.updateSong(song, 1);
+        //dbs.updateSong(song, 2);
 
         // delete a song from the table
        // dbs.deleteSong(1);
@@ -83,7 +83,7 @@ public class Main extends Application {
       //  controller.deletePlaylist(3);
 
         // Add a song to a playlist (assuming you have a song object)
-        Song song2 = new Song(1, "Bohemian Rhapsody", "Queen", "Rock", 8700, "src/main/resources/music/see-you-later-203103.mp3", "A Night at the Opera", 4);
+        //Song song2 = new Song(1, "Bohemian Rhapsody", "Queen", "Rock", 8700, "src/main/resources/music/see-you-later-203103.mp3", "A Night at the Opera", 4);
         //controller.addSongToPlaylist(1, song2);
        // controller.addSongToPlaylist(1, song);
        // controller.showPlaylistById(1);
@@ -91,21 +91,21 @@ public class Main extends Application {
 
 
         // getting all the playlists
-        controller.showAllPlaylists();
+        //controller.showAllPlaylists();
 
-        controller.showPlayListSongs(4);
-        controller.showPlaylistById(4);
+        //controller.showPlayListSongs(4);
+       // controller.showPlaylistById(4);
 
 
         // testing the media player
         // Add some songs to the SongManager
         SongManager songManager = new SongManager();
-        //songManager.addSong(new Song(1, "eterna-cancao-wav-12569", "eterna", "romanitic", 21000, "eterna-cancao-wav-12569.wav", "new evning", 4));
-        //songManager.addSong(new Song(2, "see-you-later", "jack pop", "pop", 14710, "see-you-later-203103.mp3", "new morning", 1));
+        songManager.addSong(new Song(1, "eterna-cancao-wav-12569", "eterna", "romanitic", 21000, "eterna-cancao-wav-12569.wav", "new evning", 4));
+        songManager.addSong(new Song(2, "see-you-later", "jack pop", "pop", 14710, "see-you-later-203103.mp3", "new morning", 1));
 
         // Create a Player instance with the songs from SongManager
        // Player player = new Player(songManager.getAllSongs());
-        System.out.println(songManager.getAllPlaylists());
+        //System.out.println(songManager.getAllPlaylists());
 
         // Play the first song
         //player.playSong();
