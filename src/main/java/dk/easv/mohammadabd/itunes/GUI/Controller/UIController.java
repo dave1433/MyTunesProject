@@ -1,5 +1,6 @@
 package dk.easv.mohammadabd.itunes.GUI.Controller;
 
+import dk.easv.mohammadabd.itunes.BLL.PlaylistManager;
 import dk.easv.mohammadabd.itunes.GUI.Controller.PlaylistController;
 import dk.easv.mohammadabd.itunes.BE.Playlist;
 import dk.easv.mohammadabd.itunes.BE.Song;
@@ -187,6 +188,46 @@ public class UIController {
 
         if (!progressSlider.isValueChanging()) {
             progressSlider.setValue(percentage); // Update the slider only if not being manually adjusted
+        }
+    }
+
+    @FXML
+    private void onAddtoPlaylistClicked(){
+        // Get the selected song and playlist
+        Song selectedSong = songTableView.getSelectionModel().getSelectedItem();
+        Playlist selectedPlaylist = playlistTableView.getSelectionModel().getSelectedItem();
+
+        // Check if both song and playlist are selected
+        if (selectedSong == null || selectedPlaylist == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Selection Required");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a song and a playlist.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Call PlaylistManager to add the song to the playlist
+        PlaylistManager playlistManager = new PlaylistManager();
+        boolean success = playlistManager.addSongToPlaylist(selectedPlaylist.getId(), selectedSong);
+
+        // Notify the user of success or failure
+        if (success) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Song Added");
+            alert.setHeaderText(null);
+            alert.setContentText("The song has been added to the playlist.");
+            alert.showAndWait();
+
+            // Refresh the playlist's songs
+            songsInPlaylistObservable.setAll(playlistManager.getPlayListSongs(selectedPlaylist.getId()));
+            songsInPlaylistTableView.setItems(songsInPlaylistObservable);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to add the song to the playlist.");
+            alert.showAndWait();
         }
     }
 

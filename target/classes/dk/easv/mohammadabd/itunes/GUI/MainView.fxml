@@ -32,6 +32,7 @@
                     <MenuItem mnemonicParsing="false" onAction="#onAddSongClicked" text="Add Song" />
                     <MenuItem mnemonicParsing="false" onAction="#onEditSongClicked" text="Edit Song" />
                     <MenuItem mnemonicParsing="false" onAction="#onRemoveSongClicked" text="Delete Song" />
+                    <MenuItem mnemonicParsing="false" onAction="#onAddtoPlaylistClicked" text="Add to playlist" />
                 </items>
             </ContextMenu>
         </contextMenu>
