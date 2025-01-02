@@ -3,6 +3,7 @@ package dk.easv.mohammadabd.itunes.GUI.model;
 import dk.easv.mohammadabd.itunes.BE.Playlist;
 import dk.easv.mohammadabd.itunes.BE.Song;
 import dk.easv.mohammadabd.itunes.BLL.PlaylistManager;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
@@ -60,9 +61,15 @@ public class SongManager {
     }
 
     public List<Song> filterSongs(String query) {
-        return songs.stream()
-                .filter(song -> song.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                        song.getArtist().toLowerCase().contains(query.toLowerCase()))
+         List<Song> searchForSong;
+         searchForSong = this.getAllSongs();
+        return searchForSong.stream()
+                .filter(song -> song.getTitle().toLowerCase().contains(query.toLowerCase())
+                        || song.getTitle().toLowerCase().contains(query.toLowerCase())
+                        || song.getArtist().toLowerCase().contains(query.toLowerCase())
+                        || song.getGenre().toLowerCase().contains(query.toLowerCase())
+
+                )
                 .collect(Collectors.toList());
     }
 

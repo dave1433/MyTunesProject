@@ -7,16 +7,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioSystem;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import org.apache.tika.Tika;
-import org.apache.tika.metadata.Metadata;
+
 
 public class AddSongController {
 
@@ -41,8 +37,7 @@ public class AddSongController {
     @FXML
     private Button chooseSong;
 
-    @FXML
-    private Button addSongBtn;
+
 
     @FXML
     private TextField playlist_idField;

@@ -2,15 +2,39 @@ package dk.easv.mohammadabd.itunes.GUI.Controller;
 import dk.easv.mohammadabd.itunes.BLL.PlaylistManager;
 import dk.easv.mohammadabd.itunes.BE.Playlist;
 import dk.easv.mohammadabd.itunes.BE.Song;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+
 
 import java.util.List;
 
+
+
 public class PlaylistController {
 
-    private final PlaylistManager playlistManager;
+    @FXML
+    private TextField playlistNameField;
 
+    private final PlaylistManager playlistManager;
+    @FXML
+    private void onPlcChangeText(String name) {
+        int totalsong =0;
+        long totalduration = 0;
+        PlaylistManager plc = new PlaylistManager();
+        plc.addPlaylist(name, totalsong, totalduration);
+    }
+
+    @FXML
+    private void onPlcNewButton() {
+        String playlistName = playlistNameField.getText().trim().toString();
+        System.out.println(playlistName);
+        onPlcChangeText(playlistName);
+    }
     public PlaylistController() {
         playlistManager = new PlaylistManager(); // Instantiate the PlaylistManager
+
     }
 
     // Display all playlists

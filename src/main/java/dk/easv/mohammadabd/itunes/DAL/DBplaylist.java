@@ -83,7 +83,7 @@ public class DBplaylist {
              PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             // Set parameters for the query
-            preparedStatement.setString(1, playlist.getName().toString());
+            preparedStatement.setString(1, playlist.getPlaylistName());
             preparedStatement.setInt(2, playlist.getTotalSongs());
             preparedStatement.setLong(3, playlist.getTotalDuration());
 

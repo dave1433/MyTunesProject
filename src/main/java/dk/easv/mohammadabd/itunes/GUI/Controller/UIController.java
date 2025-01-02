@@ -1,5 +1,6 @@
 package dk.easv.mohammadabd.itunes.GUI.Controller;
 
+import dk.easv.mohammadabd.itunes.GUI.Controller.PlaylistController;
 import dk.easv.mohammadabd.itunes.BE.Playlist;
 import dk.easv.mohammadabd.itunes.BE.Song;
 import dk.easv.mohammadabd.itunes.GUI.model.Player;
@@ -26,12 +27,13 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.DragEvent;
 import javafx.util.Duration;
 
+
 import java.io.IOException;
 
 public class UIController {
 
     // private final PlaylistManager playlistManager = new PlaylistManager();
-    private SongManager songManager = new SongManager();
+    private  SongManager songManager = new SongManager();
     Player player = new Player(songManager.getAllSongs());
 
 
@@ -79,6 +81,9 @@ public class UIController {
 
     @FXML
     private TextField searchField;
+
+
+
 
     private ObservableList<Song> songsObservable;
     private ObservableList<Playlist> playlistsObservable;
@@ -130,7 +135,11 @@ public class UIController {
         player.setProgressListener (currentTimeInSeconds -> updateProgressSlider(currentTimeInSeconds));
     }
 
+
+
     private boolean wasPlayingBeforeSliderDrag = false;
+
+
 
     @FXML
     private void onSliderDragDetected(DragEvent event) {

@@ -43,6 +43,10 @@ public class Playlist {
         this.id = id;
     }
 
+    public String getPlaylistName() {
+        return name;
+    }
+
     public SimpleStringProperty getName() {
         return new SimpleStringProperty(name);
     }
