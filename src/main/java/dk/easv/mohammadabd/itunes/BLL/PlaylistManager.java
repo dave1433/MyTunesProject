@@ -61,9 +61,11 @@ public class PlaylistManager {
 
     // Optionally, add a song to the playlist
     public boolean addSongToPlaylist(int playlistId, Song song) {
-        System.out.println("Adding song to playlist " + playlistId + ": " + song.getTitle());
-        // Implement actual song adding logic here, if necessary
-        return true;
+        // Implement the database logic here
+        if (dbSong == null) {
+            throw new IllegalStateException("dbSong is not initialized");
+        }
+        return dbSong.addSongToPlaylist(playlistId, song);
     }
 
     // Get songs in a playlist by ID (assuming this is the correct method in DBplaylist)

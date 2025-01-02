@@ -96,7 +96,33 @@ public class DBsong {
 
         return songslist;
     }
+    public boolean addSongToPlaylist(int playlistId, Song song) {
+        // SQL query to add a song to a playlist by updating the playlist_id column
+        String query = "UPDATE myTunesOG.Songs SET playlist_id = ? WHERE song_id = ?";
 
+        // Try-with-resources to ensure connection is properly closed
+        try (Connection connection = new dbConnector().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            // Set the parameters for the query
+            preparedStatement.setInt(1, playlistId); // Set the playlist ID
+            preparedStatement.setInt(2, song.getID()); // Set the song ID
+
+            // Execute the update query
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Successfully added song ID " + song.getID() + " to playlist ID " + playlistId);
+            }
+
+            // Return true if at least one row was updated
+            return rowsUpdated > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Error while adding song to playlist in database.");
+            e.printStackTrace();
+            return false;
+        }
+    }
     public Song getSongById(int songId) {
         Song song = null;
 
