@@ -90,8 +90,9 @@ public class UIController {
     private ObservableList<Song> songsObservable;
     private ObservableList<Playlist> playlistsObservable;
     private ObservableList<Song> songsInPlaylistObservable;
-
     private ObservableList<Song> songs;
+
+    private PlaylistController playlistController = new PlaylistController();
 
     @FXML
     public void initialize() {
@@ -303,6 +304,9 @@ public class UIController {
 
     @FXML
     private void onDeletePlaylistClicked() {
+        playlistController.deletePlaylist(playlistTableView.getSelectionModel().getSelectedItem().getId());
+        playlistTableView.setItems(playlistsObservable);
+
     }
     @FXML
     private void updateSongOrder(int fromIndex, int toIndex) {
