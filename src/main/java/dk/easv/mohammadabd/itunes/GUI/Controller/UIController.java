@@ -10,11 +10,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -81,10 +81,13 @@ public class UIController {
 
         // Initialize Playlist TableView columns
         playlistNameColumn.setCellValueFactory(cellData -> cellData.getValue().getName());
-        playlistSongsColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTotalSongs()+""));
-        playlistDurationColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTotalDuration()+""));
+        playlistSongsColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTotalSongs() + ""));
+        playlistDurationColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTotalDuration() + ""));
 
         searchField.setOnKeyReleased(event -> onSearchFieldUpdated());
+
+        // Enable drag-and-drop for song reordering
+        enableDragAndDropForSongs();
 
         // Initialize observable list for TableViews
         songsObservable = FXCollections.observableArrayList(songManager.getAllSongs());
@@ -93,12 +96,20 @@ public class UIController {
         playlistsObservable = FXCollections.observableArrayList(songManager.getAllPlaylists());
         playlistTableView.setItems(playlistsObservable);
 
-        // listener for Playlist TableView selection
+        // Add double-click event listener to songTableView
+        songTableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) { // Detect double-click
+                handleSongSelection();
+            }
+        });
+
+        // Listener for Playlist TableView selection
         playlistTableView.setOnMouseClicked(this::handlePlaylistSelection);
 
-        // add the songs to media player to be ready to play
+        // Add the songs to media player to be ready to play
         songsObservable.forEach(song -> songManager.addSong(song));
     }
+
 
 
     // Song Management
@@ -188,8 +199,61 @@ public class UIController {
 
     @FXML
     private void onDeletePlaylistClicked() {
-
     }
+
+    @FXML
+    public void enableDragAndDropForSongs() {
+        songTableView.setRowFactory(tv -> {
+            TableRow<Song> row = new TableRow<>();
+
+            // Set up drag detected event
+            row.setOnDragDetected(event -> {
+                if (!row.isEmpty()) {
+                    Dragboard db = row.startDragAndDrop(TransferMode.MOVE);
+                    ClipboardContent content = new ClipboardContent();
+                    content.putString(String.valueOf(row.getIndex()));
+                    db.setContent(content);
+                    event.consume();
+                }
+            });
+
+            // Set up drag over event
+            row.setOnDragOver(event -> {
+                if (event.getGestureSource() != row && event.getDragboard().hasString()) {
+                    event.acceptTransferModes(TransferMode.MOVE);
+                }
+                event.consume();
+            });
+
+            // Set up drag dropped event
+            row.setOnDragDropped(event -> {
+                Dragboard db = event.getDragboard();
+                if (db.hasString()) {
+                    int draggedIndex = Integer.parseInt(db.getString());
+                    Song draggedSong = songTableView.getItems().remove(draggedIndex);
+
+                    int dropIndex;
+                    if (row.isEmpty()) {
+                        dropIndex = songTableView.getItems().size();
+                    } else {
+                        dropIndex = row.getIndex();
+                    }
+
+                    songTableView.getItems().add(dropIndex, draggedSong);
+                    songTableView.getSelectionModel().select(dropIndex);
+
+                    // Update the underlying observable list
+                    songsObservable.setAll(songTableView.getItems());
+
+                    event.setDropCompleted(true);
+                    event.consume();
+                }
+            });
+
+            return row;
+        });
+    }
+
 
     // Handlers
     private void handlePlaylistSelection(MouseEvent event) {
@@ -206,13 +270,13 @@ public class UIController {
     private void handleSongSelection() {
         Song selectedSong = songTableView.getSelectionModel().getSelectedItem();
         if (selectedSong != null) {
-            songManager.removeAllSongs();
-            songManager.addSong(selectedSong);
-            player.playSong();
-
-            System.out.println("Selected song " + selectedSong.getTitle());
+            player.playSong(selectedSong); // Play the selected song directly
+            System.out.println("Selected song: " + selectedSong.getTitle());
+        } else {
+            System.out.println("No song selected.");
         }
     }
+
 
 
     // Search
@@ -233,15 +297,13 @@ public class UIController {
     // Media Controls
     @FXML
     private void onResumePauseButtonClicked() {
-        Song selectedSong = songTableView.getSelectionModel().getSelectedItem();
         if (!player.isPlaying()) {
+            Song selectedSong = songTableView.getSelectionModel().getSelectedItem();
             if (selectedSong != null) {
-//                handleSongSelection();
-
                 if (player.isPaused()) {
-                    player.resume(); // Resume from the paused position
+                    player.resume(); // Resume if paused
                 } else {
-                    player.playSong();
+                    player.playSong(selectedSong); // Play the selected song
                 }
                 resumePauseButton.setText("⏸"); // Change to pause icon
             } else {
@@ -252,6 +314,7 @@ public class UIController {
             resumePauseButton.setText("⏯"); // Change to resume icon
         }
     }
+
 
 
     @FXML
