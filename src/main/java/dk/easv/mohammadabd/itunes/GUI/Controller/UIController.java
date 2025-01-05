@@ -1,20 +1,19 @@
 package dk.easv.mohammadabd.itunes.GUI.Controller;
 
 import dk.easv.mohammadabd.itunes.BLL.PlaylistManager;
-import dk.easv.mohammadabd.itunes.GUI.Controller.PlaylistController;
 import dk.easv.mohammadabd.itunes.BE.Playlist;
-import dk.easv.mohammadabd.itunes.BLL.PlaylistManager;
 import dk.easv.mohammadabd.itunes.BE.Song;
 import dk.easv.mohammadabd.itunes.GUI.model.Player;
 import dk.easv.mohammadabd.itunes.GUI.model.SongManager;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.ClipboardContent;
@@ -83,6 +82,9 @@ public class UIController {
     private TableColumn<Playlist, String> playlistDurationColumn;
 
     @FXML
+    private Label durationText;
+
+    @FXML
     private TextField searchField;
 
 
@@ -97,6 +99,7 @@ public class UIController {
 
     @FXML
     public void initialize() {
+
         // Initialize Songs TableView columns
         titleColumn.setCellValueFactory(cellData -> cellData.getValue().titleProperty());
         artistColumn.setCellValueFactory(cellData -> cellData.getValue().artistProperty());
@@ -121,29 +124,29 @@ public class UIController {
         playlistsObservable = FXCollections.observableArrayList(songManager.getAllPlaylists());
         playlistTableView.setItems(playlistsObservable);
 
-        // Add double-click event listener to songTableView
+        // play the song when double click on the song in the list view
         songTableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) { // Detect double-click
                 handleSongSelection();
             }
         });
 
-        // Listener for Playlist TableView selection
-        playlistTableView.setOnMouseClicked(this::handlePlaylistSelection);
 
+        playlistTableView.setOnMouseClicked( this::handlePlaylistSelection);
         songsObservable.forEach(song -> songManager.addSong(song));
         // Set up listener for slider dragging and updating song progress
         progressSlider.setValue(0); // Initial value for the slider
         progressSlider.setMax(100); // Max value for the slider (we'll map it to the song duration later)
 
         player.setProgressListener (currentTimeInSeconds -> updateProgressSlider(currentTimeInSeconds));
+
     }
 
 
 
+
+    // slider methods
     private boolean wasPlayingBeforeSliderDrag = false;
-
-
 
     @FXML
     private void onSliderDragDetected(DragEvent event) {
@@ -155,23 +158,26 @@ public class UIController {
         System.out.println("Slider drag detected!");
     }
 
+    private int convertMinutesToSeconds(int minutes) {
+        return minutes * 60;
+    }
+
     @FXML
     private void onSliderMouseReleased(MouseEvent event) {
-        // Update the player's progress and optionally resume playback
-        double seekTime = progressSlider.getValue();
-        double totalDuration = player.getCurrentSongDuration();
-        double newSeekTime = (seekTime / 100) * totalDuration;
+        double seekTime = progressSlider.getValue(); // Slider value (percentage)
+        double totalDuration = player.getDuration(); // Total duration in seconds
+        double newSeekTime = (seekTime / 100) * totalDuration; // Calculate new time in seconds
 
-        player.seekTo(newSeekTime); // Seek to the new position
+        player.seekTo(Duration.seconds(newSeekTime)); // Seek to the calculated time
         System.out.println("Slider released, seeking to: " + newSeekTime + " seconds");
 
-        // Resume playback if the song was playing before
         if (wasPlayingBeforeSliderDrag) {
-            player.playSong();
+            player.playSong(); // Resume playback
             wasPlayingBeforeSliderDrag = false;
             startUpdatingSlider();
         }
     }
+
 
     @FXML
     private void onSliderDragDone(DragEvent event) {
@@ -180,7 +186,7 @@ public class UIController {
     }
     @FXML
     public void updateProgressSlider(double currentTimeInSeconds) {
-        double totalDuration = player.getCurrentSongDuration();
+        double totalDuration = player.getDuration();
         if (totalDuration <= 0) {
             progressSlider.setValue(0); // Prevent division by zero
             return;
@@ -195,19 +201,15 @@ public class UIController {
 
 
 
-    public void startUpdatingSlider() {
-        if (sliderUpdater != null) {
-            sliderUpdater.stop(); // Stop any existing updater
-        }
+    private void startUpdatingSlider() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
 
-        // Update the slider every second based on the current playback time
-        sliderUpdater = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            double currentTime = player.getCurrentSongDuration(); // Get the current playback time
-            updateProgressSlider(currentTime); // Update the slider
+            updateDurationText();
         }));
-        sliderUpdater.setCycleCount(Timeline.INDEFINITE);
-        sliderUpdater.play();
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
+
 
     public void stopUpdatingSlider() {
         if (sliderUpdater != null) {
@@ -238,23 +240,35 @@ public class UIController {
         }
     }
 
-    public void onEditSongClicked() {
+    @FXML
+    private void onEditSongClicked() {
         try {
-            // Load the FXML file
+            // Load the FXML file for the popup window
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/dk/easv/mohammadabd/itunes/GUI/editSongWindow.fxml"));
-            Scene scene = new Scene(loader.load());
+            Parent root = loader.load();
 
-            // Create a new stage (window)
-            Stage newStage = new Stage();
-            newStage.setTitle("Edit Song Window");
-            newStage.setScene(scene);
-            newStage.setResizable(false); // Disable resizing
-            newStage.show();  // Show the new window
+            // Get the controller and pass the TableView
+            SongController songController = loader.getController();
+            songController.setSongTableView(songTableView);
 
+            // Create and configure the new window
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Edit Song");
+
+            // Set an on-close event handler
+            stage.setOnCloseRequest(event -> {
+                refreshTableView(); // Call a method in the SongController when the window closes
+            });
+
+            // Show the window
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 
     @FXML
     private void onRemoveSongClicked() {
@@ -307,6 +321,8 @@ public class UIController {
     private void onDeletePlaylistClicked() {
         playlistController.deletePlaylist(playlistTableView.getSelectionModel().getSelectedItem().getId());
         playlistTableView.setItems(playlistsObservable);
+
+        refreshTableView();
 
     }
     @FXML
@@ -380,7 +396,21 @@ public class UIController {
 
 
 
-    // Handlers
+    public void playPlayListSongs() {
+        // add the songs in the play list to the player list
+        songManager.removeAllSongs();
+        songsInPlaylistObservable.forEach(song ->songManager.addSong(song));
+        songManager.updatePlaylist(songsInPlaylistObservable);
+
+
+        player.changeSongs(songManager.getMediaPlayerSongs());
+        player.setCurrentSongIndex(0);
+        onResumePauseButtonClicked();
+        player.playSong();
+        System.out.println("play playlist it works!!");
+    }
+
+
     private void handlePlaylistSelection(MouseEvent event) {
         Playlist selectedPlaylist = playlistTableView.getSelectionModel().getSelectedItem();
         if (selectedPlaylist != null) {
@@ -389,24 +419,46 @@ public class UIController {
 
             songsInPlaylistObservable = FXCollections.observableArrayList(songManager.getSongByPlayListId(selectedPlaylist.getId()));
             songsInPlaylistTableView.setItems(songsInPlaylistObservable);
+
+
         }
+
     }
+
+    @FXML
+    private void updateDurationText() {
+
+        double totalDuration = player.getDuration(); // Total song duration in seconds
+        double currentTime = player.getCurrentSongDuration();
+        String formattedCurrentTime = formatDuration(currentTime);
+        String formattedTotalDuration = formatDuration(totalDuration);
+
+        durationText.setText(formattedCurrentTime + " / " + formattedTotalDuration);
+    }
+
 
     private void handleSongSelection() {
         Song selectedSong = songTableView.getSelectionModel().getSelectedItem();
         if (selectedSong != null) {
             songManager.removeAllSongs();
-            songManager.addSong(selectedSong);
-            player.playSong();
+            songsObservable.forEach(song -> songManager.addSong(song));
+            player.changeSongs(songManager.getMediaPlayerSongs());
 
             System.out.println("Selected song " + selectedSong.getTitle());
             player.playSong(selectedSong); // Play the selected song directly
             startUpdatingSlider(); // Start updating the slider
+            onResumePauseButtonClicked(); // shift resume/pause button
+            updateDurationText();
         } else {
             System.out.println("No song selected.");
         }
     }
 
+    private String formatDuration(double seconds) {
+        int minutes = (int) seconds / 60;
+        int remainingSeconds = (int) seconds % 60;
+        return String.format("%02d:%02d", minutes, remainingSeconds);
+    }
 
 
 
@@ -432,6 +484,7 @@ public class UIController {
             player.resume();
             startUpdatingSlider(); // Resume slider updates
             resumePauseButton.setText("⏸"); // Change to pause icon
+
         } else {
             player.pause(); // Pause the song
             stopUpdatingSlider(); // Stop slider updates
@@ -483,11 +536,13 @@ public class UIController {
     @FXML
     private void onNextButtonClicked() {
         player.playNextSong();
+        updateDurationText();
     }
 
     @FXML
     private void onPreviousButtonClicked() {
         player.playPreviousSong();
+        updateDurationText();
     }
 
     @FXML
@@ -501,20 +556,30 @@ public class UIController {
     }
 
     // Utility
+
     private void refreshTableView() {
         songManager.removeAllSongs();
-
         songsObservable.setAll(songManager.getAllSongs());
         // add the songs to media player to be ready to play
         songsObservable.forEach(song -> songManager.addSong(song));
-    }
 
-    public void onSliderMousePressed(MouseEvent mouseEvent) {
+        // refresh all the playlist list view
+        playlistsObservable.setAll(songManager.getAllPlaylists());
+        playlistTableView.setItems(playlistsObservable);
+
+        // refresh all the songs in the playlists
+        if(playlistTableView.getSelectionModel().getSelectedItem() != null) {
+            songsInPlaylistObservable.setAll(songManager.getSongByPlayListId(playlistTableView.getSelectionModel().getSelectedItem().getId()));
+            songsInPlaylistTableView.setItems(songsInPlaylistObservable);
+        }
+
     }
 
     public void RemoveFromPlayList() {
         playlistController.deletePlaylist( songsInPlaylistTableView.getSelectionModel().getSelectedItem().getPlaylist_id());
         songsInPlaylistObservable.setAll(songsObservable);
+
+        refreshTableView();
 
     }
 }

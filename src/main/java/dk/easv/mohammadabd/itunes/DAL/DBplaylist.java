@@ -6,6 +6,7 @@ import dk.easv.mohammadabd.itunes.BE.Song;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class DBplaylist {
 
@@ -73,6 +74,34 @@ public class DBplaylist {
         return playlists;
     }
 
+    public void autoCalcSongsInPlayList(Playlist playlist) {
+        AtomicInteger amountOfSongs = new AtomicInteger();
+        String query = "UPDATE myTunesOG.playlists_table SET name = ?, total_songs = ?, all_songs_duration = ? WHERE playlist_id = ?";
+        try(Connection connection = new dbConnector().getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
+
+            preparedStatement.setString(1, playlist.getPlaylistName());
+            preparedStatement.setInt(2, playlist.getSongs().size());
+            preparedStatement.setLong(3, playlist.getTotalDuration());
+            preparedStatement.setInt(4, playlist.getId());
+
+            int rowsInserted = preparedStatement.executeUpdate();
+            if(rowsInserted > 0){
+                try(ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                    if (resultSet.next()) {
+                        int id = resultSet.getInt(1);
+                        System.out.println("Playlist successfully updated the total songs in " + playlist.getPlaylistName());
+
+                    }
+                }
+            }
+
+        } catch (SQLException e){
+            System.err.println("Error while updating songs in playlist.");
+            e.printStackTrace();
+        }
+
+    }
 
 
     // Method to add a new playlist to the database

@@ -3,6 +3,7 @@ package dk.easv.mohammadabd.itunes.GUI.model;
 import dk.easv.mohammadabd.itunes.BE.Playlist;
 import dk.easv.mohammadabd.itunes.BE.Song;
 import dk.easv.mohammadabd.itunes.BLL.PlaylistManager;
+import dk.easv.mohammadabd.itunes.DAL.DBsong;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 public class SongManager {
     private final List<Song> songs;
      PlaylistManager playlistManager = new PlaylistManager();
+     DBsong dbs = new DBsong();
     public SongManager() {
         this.songs = new ArrayList<>();
     }
@@ -44,6 +46,7 @@ public class SongManager {
 
     public void removeSong(Song song) {
         if (songs.remove(song)) {
+            dbs.deleteSong(song.getID());
             System.out.println("Song removed: " + song.getTitle());
         } else {
             System.out.println("Song not found: " + song.getTitle());

@@ -14,17 +14,34 @@ public class Player {
     private MediaPlayer mediaPlayer;
     private boolean isPaused;
     private PlayerProgressListener progressListener;
+    private double duration;
 
     public interface PlayerProgressListener {
         void onProgress(double currentTimeInSeconds);
     }
 
+
+
+    public double getDuration() {
+        return duration;
+    }
+
+    public void setDuration() {
+        this.duration = mediaPlayer.getMedia().getDuration().toSeconds();
+
+
+    }
     public Player(List<Song> songs) {
         this.songs = songs;
         this.currentSongIndex = 0;
         this.isPaused = false;
     }
-
+    public void setCurrentSongIndex(int currentSongIndex) {
+        this.currentSongIndex = currentSongIndex;
+    }
+    public int getCurrentSongIndex() {
+        return currentSongIndex;
+    }
     public void setProgressListener(PlayerProgressListener listener) {
         this.progressListener = listener;
     }
@@ -39,7 +56,8 @@ public class Player {
 
     public void playSong(Song song) {
         if (song == null || song.getFilePath() == null || song.getFilePath().isEmpty()) {
-            System.out.println("No valid song selected.");
+            System.out.println("No valid song selected");
+
             return;
         }
 
@@ -55,6 +73,7 @@ public class Player {
             if (mediaPlayer != null) {
                 mediaPlayer.stop();
                 mediaPlayer.dispose();
+
             }
 
             Media media = new Media(resource.toString());
@@ -64,8 +83,9 @@ public class Player {
             System.out.println("Now playing: " + song.getTitle() + " by " + song.getArtist());
             System.out.println("Duration: " + song.getDuration() + " seconds");
 
+
             mediaPlayer.setOnEndOfMedia(this::playNextSong);
-            mediaPlayer.setOnPlaying(() -> System.out.println("Song is playing..."));
+            mediaPlayer.setOnPlaying(this::setDuration);
             mediaPlayer.setOnError(() -> {
                 System.out.println("Error with MediaPlayer: " + mediaPlayer.getError());
             });
@@ -73,8 +93,10 @@ public class Player {
             mediaPlayer.currentTimeProperty().addListener((observable, oldValue, newValue) -> {
                 if (progressListener != null) {
                     progressListener.onProgress(newValue.toSeconds());
+
                 }
             });
+
 
             mediaPlayer.play();
         } catch (Exception e) {
@@ -83,7 +105,12 @@ public class Player {
         }
     }
 
+
+    public void changeSongs(List<Song> songs) {
+        this.songs = songs;
+    }
     public boolean isPlaying() {
+
         return mediaPlayer != null && mediaPlayer.getStatus() == MediaPlayer.Status.PLAYING;
     }
 
@@ -93,7 +120,7 @@ public class Player {
 
     public double getCurrentSongDuration() {
         if (mediaPlayer != null && mediaPlayer.getMedia() != null) {
-            return mediaPlayer.getMedia().getDuration().toSeconds();
+            return mediaPlayer.getCurrentTime().toSeconds();
         }
         return 0;
     }
@@ -153,9 +180,9 @@ public class Player {
         }
     }
 
-    public void seekTo(double timeInSeconds) {
+    public void seekTo(Duration timeInSeconds) {
         if (mediaPlayer != null) {
-            mediaPlayer.seek(Duration.seconds(timeInSeconds));
+            mediaPlayer.seek(timeInSeconds);
         }
     }
 }

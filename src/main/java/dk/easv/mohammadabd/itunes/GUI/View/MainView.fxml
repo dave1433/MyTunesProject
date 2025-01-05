@@ -43,6 +43,7 @@
         <contextMenu>
             <ContextMenu>
                 <items>
+                    <MenuItem mnemonicParsing="false" onAction="#playPlayListSongs" text="Play playList" />
                     <MenuItem mnemonicParsing="false" onAction="#onCreatePlaylistClicked" text="New Playlist" />
                     <MenuItem mnemonicParsing="false" onAction="#onEditPlaylistClicked" text="Edit Playlist" />
                     <MenuItem mnemonicParsing="false" onAction="#onDeletePlaylistClicked" text="Delete Playlist" />
@@ -75,7 +76,7 @@
     <Button layoutX="171.0" layoutY="450.0" mnemonicParsing="false" onAction="#onPreviousButtonClicked" text="⏮" textAlignment="JUSTIFY" />
     <Button layoutX="373.0" layoutY="450.0" mnemonicParsing="false" onAction="#onNextButtonClicked" text="⏭" textAlignment="JUSTIFY" />
     <Button layoutX="214.0" layoutY="450.0" mnemonicParsing="false" onAction="#onSkipBackwardButtonClicked" text="⏪" textAlignment="JUSTIFY" />
-    <Button fx:id="resumePauseButton" layoutX="259.0" layoutY="443.0" onAction="#onResumePauseButtonClicked" prefHeight="40.0" prefWidth="63.0" text="⏯" textAlignment="JUSTIFY">
+    <Button fx:id="resumePauseButton" layoutX="259.0" layoutY="443.0" onAction="#onResumePauseButtonClicked" prefHeight="40.0" prefWidth="63.0" text="▶" textAlignment="JUSTIFY">
         <font>
             <Font size="18.0" />
         </font></Button>
