@@ -54,6 +54,13 @@ public class PlaylistManager {
         return dbPlaylist.updatePlaylist(playlist, playlistId); // Update the playlist in the database
     }
 
+    public void updatePlaylistSongs(List<Playlist> playlists){
+        playlists.forEach(pls -> {
+            dbPlaylist.autoCalcSongsInPlayList(pls);
+        });
+
+    };
+
     // Delete a playlist
     public boolean deletePlaylist(int playlistId) {
         return dbPlaylist.deletePlaylist(playlistId); // Delete the playlist from the database
