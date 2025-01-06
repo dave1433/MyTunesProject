@@ -56,7 +56,9 @@ public class PlaylistManager {
 
     public void updatePlaylistSongs(List<Playlist> playlists){
         playlists.forEach(pls -> {
-            dbPlaylist.autoCalcSongsInPlayList(pls);
+            List<Song> songs = dbPlaylist.getSongsInPlaylist(pls.getId());
+            pls.setSongs(songs);
+            dbPlaylist.updateSongsInPlaylist(pls);
         });
 
     };

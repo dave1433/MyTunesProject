@@ -80,5 +80,5 @@
         <font>
             <Font size="18.0" />
         </font></Button>
-    <Label fx:id="durationText" layoutX="513.0" layoutY="454.0" text="11:14 / 12:31" />
+    <Label fx:id="durationText" layoutX="513.0" layoutY="454.0" text="--:-- / --:--" />
 </AnchorPane>

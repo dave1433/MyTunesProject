@@ -27,6 +27,11 @@ public class PlaylistController {
     }
 
     @FXML
+    public void updateSongsInPlaylists(List<Playlist> playlists) {
+        playlistManager.updatePlaylistSongs(playlists);
+    }
+
+    @FXML
     private void onPlcNewButton() {
         String playlistName = playlistNameField.getText().trim().toString();
         System.out.println(playlistName);

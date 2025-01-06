@@ -100,6 +100,8 @@ public class UIController {
     @FXML
     public void initialize() {
 
+
+
         // Initialize Songs TableView columns
         titleColumn.setCellValueFactory(cellData -> cellData.getValue().titleProperty());
         artistColumn.setCellValueFactory(cellData -> cellData.getValue().artistProperty());
@@ -122,6 +124,7 @@ public class UIController {
         songTableView.setItems(songsObservable);
 
         playlistsObservable = FXCollections.observableArrayList(songManager.getAllPlaylists());
+        playlistController.updateSongsInPlaylists(playlistsObservable);
         playlistTableView.setItems(playlistsObservable);
 
         // play the song when double click on the song in the list view

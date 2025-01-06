@@ -90,7 +90,7 @@ public class Playlist {
     }
 
     // Method to update the total duration and total songs count
-    private void updatePlaylistDetails() {
+    public void updatePlaylistDetails() {
         totalSongs = songs.size();
         totalDuration = 0;
         for (Song song : songs) {
