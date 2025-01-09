@@ -417,7 +417,9 @@ public class UIController {
     private void handlePlaylistSelection(MouseEvent event) {
         Playlist selectedPlaylist = playlistTableView.getSelectionModel().getSelectedItem();
         if (selectedPlaylist != null) {
+
             playlistSongColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
+            playlistSongsColumn.setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getTotalSongs()+""));
             playlistSongDurationColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDuration()+""));
 
             songsInPlaylistObservable = FXCollections.observableArrayList(songManager.getSongByPlayListId(selectedPlaylist.getId()));

@@ -25,6 +25,7 @@
         <contextMenu>
             <ContextMenu>
                 <items>
+                    <MenuItem mnemonicParsing="false" onAction="#onAddtoPlaylistClicked" text="Add To Playlist" />
                     <MenuItem mnemonicParsing="false" onAction="#onAddSongClicked" text="Add Song" />
                     <MenuItem mnemonicParsing="false" onAction="#onEditSongClicked" text="Edit Song" />
                     <MenuItem mnemonicParsing="false" onAction="#onRemoveSongClicked" text="Delete Song" />
@@ -71,7 +72,7 @@
     <TextField fx:id="searchField" layoutX="595.0" layoutY="5.0" onInputMethodTextChanged="#onSearchFieldUpdated" prefHeight="25.0" prefWidth="219.0" promptText="Search for song" />
 
     <!-- Media Control Buttons -->
-    <Slider fx:id="progressSlider" layoutX="10.0" layoutY="421.0" prefWidth="575.0"  onMouseReleased="#onSliderMouseReleased" />
+    <Slider fx:id="progressSlider" layoutX="10.0" layoutY="421.0" prefWidth="575.0" />
     <Button layoutX="338.0" layoutY="450.0" mnemonicParsing="false" onAction="#onSkipForwardButtonClicked" text="⏩" textAlignment="JUSTIFY" />
     <Button layoutX="171.0" layoutY="450.0" mnemonicParsing="false" onAction="#onPreviousButtonClicked" text="⏮" textAlignment="JUSTIFY" />
     <Button layoutX="373.0" layoutY="450.0" mnemonicParsing="false" onAction="#onNextButtonClicked" text="⏭" textAlignment="JUSTIFY" />
@@ -80,5 +81,5 @@
         <font>
             <Font size="18.0" />
         </font></Button>
-    <Label fx:id="durationText" layoutX="513.0" layoutY="454.0" text="--:-- / --:--" />
+    <Label layoutX="513.0" layoutY="454.0" text="11:14 / 12:31" />
 </AnchorPane>
